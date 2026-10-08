@@ -8,64 +8,172 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root{
-    --bg:#FAFAF7; --ink:#141412; --muted:#6B6B66; --line:#E8E8E2;
-    --accent:#1E5B45; --accent-soft:#EAF3EE; --card:#FFFFFF;
+    --paper:#F7F6F1;
+    --ink:#141412;
+    --ink-soft:#3A3A35;
+    --muted:#77776F;
+    --line:rgba(20,20,18,.14);
+    --green:#175C40;
+    --green-deep:#0E3D2A;
+    --dark:#111110;
+    --dark-ink:#F2F1EB;
+    --dark-muted:#A9A9A0;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  nav{position:sticky;top:0;background:rgba(250,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{font-weight:800;font-size:18px;letter-spacing:-.02em}
-  .brand span{color:var(--accent)}
-  .navlinks{display:flex;gap:28px;font-size:15px}
-  .navlinks a{color:var(--muted);text-decoration:none}
+  body{
+    font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--paper);color:var(--ink);line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--green);color:#fff}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+
+  /* ---------- nav ---------- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(247,246,241,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+  .brand .mark{width:26px;height:26px;border-radius:8px;background:var(--green);display:inline-flex;align-items:center;justify-content:center}
+  .brand .mark svg{width:15px;height:15px}
+  .navlinks{display:flex;gap:32px;font-size:14.5px;font-weight:500}
+  .navlinks a{color:var(--muted);text-decoration:none;transition:color .2s}
   .navlinks a:hover{color:var(--ink)}
-  .btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px}
-  .btn:hover{background:var(--accent)}
+  .nav-cta{background:var(--ink);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;transition:background .25s}
+  .nav-cta:hover{background:var(--green)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:190px 0 120px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-120px;right:-120px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,rgba(23,92,64,.10),transparent 65%);pointer-events:none}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-size:12.5px;font-weight:700;letter-spacing:.22em;color:var(--green);margin-bottom:28px}
+  .eyebrow::before{content:"";width:36px;height:2px;background:var(--green)}
+  h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;letter-spacing:-.035em;line-height:1.16;margin-bottom:30px}
+  h1 .accent{color:var(--green)}
+  .lede{font-size:clamp(17px,2vw,20px);color:var(--ink-soft);max-width:620px;margin-bottom:44px;line-height:1.7}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:15px 30px;border-radius:999px;
+    text-decoration:none;font-weight:600;font-size:15.5px;transition:transform .2s,background .25s}
+  .btn:hover{background:var(--green);transform:translateY(-1px)}
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-  .btn-ghost:hover{border-color:var(--ink);background:transparent}
-  header.hero{padding:110px 0 90px}
-  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:20px}
-  h1{font-size:clamp(34px,5.4vw,58px);font-weight:800;letter-spacing:-.03em;line-height:1.22;margin-bottom:24px}
-  .lede{font-size:19px;color:var(--muted);max-width:640px;margin-bottom:36px}
-  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-  section{padding:72px 0;border-top:1px solid var(--line)}
-  .sec-label{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
-  h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:16px}
-  .sec-desc{color:var(--muted);max-width:640px;margin-bottom:40px;font-size:17px}
-  .gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .gate{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px}
-  .gate .num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
-  .gate h3{font-size:19px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
-  .gate .q{font-size:15px;font-weight:600;color:var(--muted);margin-bottom:10px}
-  .gate p{font-size:15px;color:var(--muted)}
-  .pilot{background:var(--ink);color:#fff;border-radius:20px;padding:44px;margin-top:56px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
-  .pilot .tag{display:inline-block;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;margin-bottom:14px;letter-spacing:.06em}
-  .pilot h3{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
-  .pilot p{color:#B9B9B2;font-size:16px;max-width:520px}
-  .pilot .price{font-size:15px;color:#B9B9B2;margin-top:12px}
-  .pilot .price strong{color:#fff;font-size:22px}
-  .pilot .btn{background:#fff;color:var(--ink)}
-  .pilot .btn:hover{background:var(--accent-soft)}
-  .product{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-  .product h3{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
-  .product p{color:var(--muted);font-size:17px;margin-bottom:20px}
-  .product .mock{background:var(--accent-soft);border-radius:20px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:15px}
-  .about p{font-size:18px;color:var(--muted);max-width:680px}
-  .about p strong{color:var(--ink)}
-  .contact-box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:44px;text-align:center}
-  .contact-box h2{margin-bottom:8px}
-  .contact-box p{color:var(--muted);margin-bottom:28px}
-  .mail{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none}
-  footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  @media(max-width:720px){
+  .btn-ghost:hover{border-color:var(--ink);background:transparent;transform:translateY(-1px)}
+  .hero-meta{display:flex;gap:40px;margin-top:72px;padding-top:32px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .hero-meta div{font-size:13.5px;color:var(--muted)}
+  .hero-meta strong{display:block;font-size:15px;color:var(--ink);font-weight:700;margin-bottom:2px}
+
+  /* ---------- marquee ---------- */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;background:var(--paper)}
+  .marquee-track{display:flex;gap:56px;white-space:nowrap;animation:scroll 30s linear infinite;width:max-content}
+  .marquee-track span{font-size:13px;font-weight:700;letter-spacing:.24em;color:var(--muted)}
+  .marquee-track span i{font-style:normal;color:var(--green);margin-right:56px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ---------- sections ---------- */
+  section{padding:110px 0}
+  .sec-head{margin-bottom:64px;max-width:720px}
+  .sec-label{font-size:12.5px;font-weight:700;letter-spacing:.22em;color:var(--green);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+  .sec-label::before{content:"";width:28px;height:2px;background:var(--green)}
+  h2{font-size:clamp(30px,4.2vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.25;margin-bottom:18px}
+  .sec-desc{font-size:17.5px;color:var(--muted);line-height:1.7}
+
+  /* ---------- gates : editorial rows ---------- */
+  .gates{border-top:1px solid var(--ink)}
+  .gate{display:grid;grid-template-columns:90px 1fr 1.2fr;gap:32px;align-items:start;
+    padding:38px 12px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);
+    transition:background .25s,padding .25s}
+  .gate:hover{background:rgba(23,92,64,.045)}
+  .gate .num{font-size:15px;font-weight:700;letter-spacing:.08em;color:var(--green);padding-top:4px}
+  .gate h3{font-size:23px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .gate h3 small{display:block;font-size:12.5px;font-weight:600;letter-spacing:.14em;color:var(--muted);margin-top:6px}
+  .gate .q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:10px}
+  .gate p{font-size:15.5px;color:var(--muted);line-height:1.7;max-width:480px}
+
+  /* ---------- pilot : dark panel ---------- */
+  .pilot{background:var(--dark);color:var(--dark-ink);border-radius:24px;padding:64px;margin-top:88px;
+    display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center;position:relative;overflow:hidden}
+  .pilot::after{content:"";position:absolute;bottom:-140px;left:-100px;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(46,125,82,.22),transparent 65%);pointer-events:none}
+  .pilot .tag{display:inline-block;background:var(--green);color:#fff;font-size:12.5px;font-weight:700;
+    padding:7px 16px;border-radius:999px;margin-bottom:22px;letter-spacing:.1em}
+  .pilot h3{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.025em;line-height:1.35;margin-bottom:16px}
+  .pilot p{color:var(--dark-muted);font-size:16px;line-height:1.75;max-width:520px}
+  .pilot-side{position:relative;z-index:1}
+  .pilot .price{margin:26px 0 30px}
+  .pilot .price s{color:var(--dark-muted);font-size:16px;margin-right:12px}
+  .pilot .price strong{font-size:40px;font-weight:800;letter-spacing:-.03em}
+  .pilot .price span{display:block;font-size:13.5px;color:var(--dark-muted);margin-top:6px}
+  .btn-light{background:var(--dark-ink);color:var(--ink)}
+  .btn-light:hover{background:#fff;transform:translateY(-1px)}
+
+  /* ---------- product ---------- */
+  .product-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:center}
+  .browser-mock{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;
+    box-shadow:0 30px 60px -30px rgba(20,20,18,.22)}
+  .browser-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line);background:#FBFBF9}
+  .browser-bar i{width:11px;height:11px;border-radius:50%;background:#DDDCD4}
+  .browser-bar .url{margin-left:10px;font-size:12.5px;color:var(--muted);background:var(--paper);
+    border:1px solid var(--line);border-radius:8px;padding:5px 14px;flex:1}
+  .mock-body{padding:28px}
+  .mock-search{display:flex;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:12px;padding:13px 18px;
+    font-size:15px;font-weight:600;margin-bottom:20px}
+  .mock-search span:last-child{margin-left:auto;color:var(--green);font-size:13px;font-weight:700}
+  .mock-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .mock-card{border:1px solid var(--line);border-radius:12px;padding:18px}
+  .mock-card .emoji{font-size:26px;margin-bottom:10px}
+  .mock-card .fname{font-weight:700;font-size:14.5px;margin-bottom:4px}
+  .mock-card .fmeta{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+  .mock-bar{height:7px;border-radius:99px;background:var(--paper);margin-bottom:8px;overflow:hidden}
+  .mock-bar i{display:block;height:100%;border-radius:99px;background:var(--green)}
+  .product-copy h3{font-size:clamp(26px,3.4vw,36px);font-weight:800;letter-spacing:-.025em;margin-bottom:16px}
+  .product-copy h3 small{display:block;font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--green);margin-bottom:14px}
+  .product-copy p{color:var(--muted);font-size:17px;line-height:1.75;margin-bottom:28px}
+  .product-copy ul{list-style:none;margin-bottom:32px}
+  .product-copy li{font-size:15.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:baseline}
+  .product-copy li::before{content:"—";color:var(--green);font-weight:700}
+
+  /* ---------- about ---------- */
+  .about{background:var(--dark);color:var(--dark-ink);border-radius:24px;padding:88px 72px;position:relative;overflow:hidden}
+  .about::before{content:"“";position:absolute;top:20px;left:48px;font-size:160px;line-height:1;color:rgba(255,255,255,.06);
+    font-family:Georgia,serif;pointer-events:none}
+  .about .sec-label{color:#7FB894}
+  .about .sec-label::before{background:#7FB894}
+  .about blockquote{font-size:clamp(24px,3.4vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.5;max-width:800px;margin-bottom:28px}
+  .about p{color:var(--dark-muted);font-size:16.5px;max-width:640px;line-height:1.8}
+  .about p strong{color:var(--dark-ink)}
+
+  /* ---------- contact ---------- */
+  .contact-box{text-align:center;padding:40px 0}
+  .contact-box h2{margin-bottom:14px}
+  .contact-box p{color:var(--muted);font-size:17px;margin-bottom:40px}
+  .mail{font-size:clamp(22px,3.4vw,34px);font-weight:800;letter-spacing:-.02em;color:var(--ink);text-decoration:none;
+    border-bottom:3px solid var(--green);padding-bottom:6px;transition:color .2s}
+  .mail:hover{color:var(--green)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:36px 0 48px;color:var(--muted);font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  footer .fbrand{font-weight:800;color:var(--ink);font-size:14.5px}
+
+  /* ---------- reveal ---------- */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+
+  @media(max-width:860px){
     .navlinks{display:none}
-    header.hero{padding:72px 0 56px}
-    .product{grid-template-columns:1fr}
-    .pilot{padding:32px 24px}
+    .hero{padding:140px 0 80px}
+    section{padding:72px 0}
+    .gate{grid-template-columns:1fr;gap:10px;padding:30px 4px}
+    .gate .num{padding-top:0}
+    .pilot{grid-template-columns:1fr;padding:44px 32px;gap:32px}
+    .product-grid{grid-template-columns:1fr;gap:44px}
+    .about{padding:56px 32px}
+    .hero-meta{gap:24px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    .marquee-track{animation:none}
+    html{scroll-behavior:auto}
   }
 </style>
 </head>
@@ -73,109 +181,160 @@
 
 <nav>
   <div class="wrap">
-    <div class="brand">Kloca<span>·</span>Studio</div>
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      Kloca Studio
+    </a>
     <div class="navlinks">
       <a href="#services">서비스</a>
       <a href="#product">제품</a>
       <a href="#about">소개</a>
       <a href="#contact">문의</a>
     </div>
-    <a class="btn" href="#contact" style="padding:10px 20px;font-size:14px">검증 의뢰</a>
+    <a class="nav-cta" href="#contact">검증 의뢰</a>
   </div>
 </nav>
 
-<header class="hero">
+<header class="hero" id="top">
   <div class="wrap">
-    <div class="eyebrow">KLOCA STUDIO — AI ASSURANCE LAYER</div>
-    <h1>AI가 만든 것을<br>믿기 전에 검사합니다.</h1>
-    <p class="lede">클로카 스튜디오는 AI 도입 전 과정의 독립 검증을 제공합니다. 제품을 직접 만드는 스튜디오이기에, 검증이 무엇을 놓치는지 압니다.</p>
-    <div class="cta-row">
+    <div class="eyebrow rv">KLOCA STUDIO — AI ASSURANCE LAYER</div>
+    <h1 class="rv">AI가 만든 것을<br><span class="accent">믿기 전에</span> 검사합니다.</h1>
+    <p class="lede rv">클로카 스튜디오는 AI 도입 전 과정의 독립 검증을 제공합니다. 제품을 직접 만드는 스튜디오이기에, 검증이 무엇을 놓치는지 압니다.</p>
+    <div class="cta-row rv">
       <a class="btn" href="#contact">검증 의뢰하기</a>
-      <a class="btn btn-ghost" href="#services">서비스 보기</a>
+      <a class="btn btn-ghost" href="#services">다섯 개의 게이트 보기</a>
+    </div>
+    <div class="hero-meta rv">
+      <div><strong>독립 검증</strong>만든 팀이 아닌 제3자의 눈</div>
+      <div><strong>게이트별 의뢰</strong>필요한 검사만 골라서</div>
+      <div><strong>검증 리포트</strong>판정과 근거를 문서로</div>
     </div>
   </div>
 </header>
 
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>DIAGNOSIS <i>·</i></span><span>CROSS-VALIDATION <i>·</i></span><span>PRODUCT QA <i>·</i></span><span>OWNERSHIP <i>·</i></span><span>OPERATIONS <i>·</i></span>
+    <span>DIAGNOSIS <i>·</i></span><span>CROSS-VALIDATION <i>·</i></span><span>PRODUCT QA <i>·</i></span><span>OWNERSHIP <i>·</i></span><span>OPERATIONS <i>·</i></span>
+  </div>
+</div>
+
 <section id="services">
   <div class="wrap">
-    <div class="sec-label">SERVICES</div>
-    <h2>다섯 개의 검증 게이트</h2>
-    <p class="sec-desc">AI 도입의 각 단계마다 통과해야 할 검사입니다. 필요한 게이트만 골라 의뢰할 수 있습니다.</p>
-    <div class="gates">
-      <div class="gate">
+    <div class="sec-head rv">
+      <div class="sec-label">SERVICES</div>
+      <h2>다섯 개의 검증 게이트</h2>
+      <p class="sec-desc">AI 도입의 각 단계마다 통과해야 할 검사입니다. 전부 맡길 필요 없습니다. 지금 막힌 그 하나만 골라 의뢰하세요.</p>
+    </div>
+    <div class="gates rv">
+      <a class="gate" href="#contact">
         <div class="num">01</div>
-        <h3>진단소</h3>
-        <div class="q">"만들 가치가 있는가?"</div>
-        <p>AI 도입 전, 만들지 말아야 할 것을 걸러냅니다. 기술 타당성과 비용 대비 효과를 먼저 따집니다.</p>
-      </div>
-      <div class="gate">
+        <div><h3>진단소<small>DECISION ASSURANCE</small></h3></div>
+        <div><div class="q">"만들 가치가 있는가?"</div>
+        <p>AI 도입 전, 만들지 말아야 할 것을 걸러냅니다. 기술 타당성과 비용 대비 효과를 먼저 따집니다.</p></div>
+      </a>
+      <a class="gate" href="#contact">
         <div class="num">02</div>
-        <h3>교차검증소</h3>
-        <div class="q">"AI의 결과를 믿어도 되는가?"</div>
-        <p>문서·보고서·산출물을 복수 AI와 원문 대조로 교차검증합니다. 환각과 오류를 잡아냅니다.</p>
-      </div>
-      <div class="gate">
+        <div><h3>교차검증소<small>OUTPUT ASSURANCE</small></h3></div>
+        <div><div class="q">"AI의 결과를 믿어도 되는가?"</div>
+        <p>문서·보고서·산출물을 복수 AI와 원문 대조로 교차검증합니다. 환각과 오류를 잡아냅니다.</p></div>
+      </a>
+      <a class="gate" href="#contact">
         <div class="num">03</div>
-        <h3>제품 QA 검증소</h3>
-        <div class="q">"실제로 작동하는가?"</div>
-        <p>앱·자동화의 출시 전 독립 검수. 만든 팀이 아닌 제3자의 눈으로 품질을 확인합니다.</p>
-      </div>
-      <div class="gate">
+        <div><h3>제품 QA 검증소<small>PRODUCT ASSURANCE</small></h3></div>
+        <div><div class="q">"실제로 작동하는가?"</div>
+        <p>앱·자동화의 출시 전 독립 검수. 만든 팀이 아닌 제3자의 눈으로 품질을 확인합니다.</p></div>
+      </a>
+      <a class="gate" href="#contact">
         <div class="num">04</div>
-        <h3>인수인계 검증</h3>
-        <div class="q">"고객이 통제하는가?"</div>
-        <p>외주 결과물을 넘겨받기 전, 계정·코드·데이터·도메인의 소유권과 재배포 가능성을 확인합니다.</p>
-      </div>
-      <div class="gate">
+        <div><h3>인수인계 검증<small>OWNERSHIP ASSURANCE</small></h3></div>
+        <div><div class="q">"고객이 통제하는가?"</div>
+        <p>외주 결과물을 넘겨받기 전, 계정·코드·데이터·도메인의 소유권과 재배포 가능성을 확인합니다.</p></div>
+      </a>
+      <a class="gate" href="#contact">
         <div class="num">05</div>
-        <h3>운영 QA</h3>
-        <div class="q">"계속 통제되는가?"</div>
-        <p>변경·장애·품질을 지속적으로 감시합니다. AI 시스템이 시간이 지나도 망가지지 않게 합니다.</p>
-      </div>
+        <div><h3>운영 QA<small>OPERATIONAL ASSURANCE</small></h3></div>
+        <div><div class="q">"계속 통제되는가?"</div>
+        <p>변경·장애·품질을 지속적으로 감시합니다. AI 시스템이 시간이 지나도 망가지지 않게 합니다.</p></div>
+      </a>
     </div>
 
-    <div class="pilot">
+    <div class="pilot rv">
       <div>
         <span class="tag">파일럿 모집 중</span>
-        <h3>외주 앱 인수받기 전, 이것만은 확인하세요</h3>
-        <p>관리자 계정, 소스 저장소, 재배포 가능성, DB 접근권, 도메인 명의, 운영 비용 — 8개 항목을 검증하고 리포트로 드립니다. 수정 작업은 범위 밖, 수정 권고까지.</p>
-        <div class="price"><strong>39만원</strong> · 파일럿 특가 (정상가 79만원)</div>
+        <h3>외주 앱 인수받기 전,<br>이것만은 확인하세요.</h3>
+        <p>관리자 계정, 소스 저장소, 재배포 가능성, DB 접근권, 도메인 명의, 운영 비용 — 8개 항목을 검증하고 리포트 한 부로 드립니다. 수정 작업은 범위 밖입니다. 수정 권고까지만 합니다.</p>
       </div>
-      <a class="btn" href="#contact">파일럿 신청</a>
+      <div class="pilot-side">
+        <div class="price"><s>정상가 79만원</s><strong>39만원</strong><span>파일럿 특가 · 검증 리포트 1부 포함</span></div>
+        <a class="btn btn-light" href="#contact">파일럿 신청하기</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="product">
+<section id="product" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-label">PRODUCT</div>
-    <h2>우리가 만든 제품</h2>
-    <p class="sec-desc">검증만 하는 게 아닙니다. 직접 만들고, 직접 부딪혀 봅니다.</p>
-    <div class="product">
-      <div class="mock">KLoCa Lens — 앱 화면</div>
-      <div>
-        <h3>KLoCa Lens</h3>
-        <p>장보기 전, 식품을 이해하는 AI 도구. 먹기 전에 무엇을 선택하고 살지 판단하도록 돕습니다. 식단 기준 설정, 식품 비교, 분량 계획, 장보기 목록까지.</p>
+    <div class="sec-head rv">
+      <div class="sec-label">PRODUCT</div>
+      <h2>검증만 하지 않습니다.<br>직접 만듭니다.</h2>
+      <p class="sec-desc">제품을 만들어 본 사람이 검증해야 무엇이 진짜 위험인지 압니다.</p>
+    </div>
+    <div class="product-grid">
+      <div class="browser-mock rv" aria-hidden="true">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="url">KLoCa Lens</span></div>
+        <div class="mock-body">
+          <div class="mock-search">🍗 닭가슴살 <span>비교하기 →</span></div>
+          <div class="mock-cards">
+            <div class="mock-card">
+              <div class="emoji">🥗</div>
+              <div class="fname">그릭 샐러드</div>
+              <div class="fmeta">1인분 · 320kcal</div>
+              <div class="mock-bar"><i style="width:72%"></i></div>
+              <div class="mock-bar"><i style="width:45%"></i></div>
+            </div>
+            <div class="mock-card">
+              <div class="emoji">🍱</div>
+              <div class="fname">현미 도시락</div>
+              <div class="fmeta">1인분 · 480kcal</div>
+              <div class="mock-bar"><i style="width:58%"></i></div>
+              <div class="mock-bar"><i style="width:80%"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-copy rv">
+        <h3><small>FLAGSHIP PRODUCT</small>KLoCa Lens</h3>
+        <p>장보기 전, 식품을 이해하는 AI 도구. 식사 기록 앱이 아닙니다. 먹기 전에 무엇을 선택하고 살지 판단하도록 돕습니다.</p>
+        <ul>
+          <li>식단 기준과 영양 예산 설정</li>
+          <li>식품 검색·비교와 분량 계획</li>
+          <li>장보기 목록 저장</li>
+        </ul>
         <a class="btn btn-ghost" href="https://nutrilens-site.vercel.app/app/" target="_blank" rel="noopener">베타 앱 열어보기</a>
       </div>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <div class="wrap about">
-    <div class="sec-label">ABOUT</div>
-    <h2>비개발자가 AI로 세계를 짓는 곳</h2>
-    <p>클로카 스튜디오는 <strong>1인 AI 스튜디오</strong>입니다. 제품과 서비스를 병행합니다. 제품을 직접 만들어 본 사람이 검증해야, 무엇이 진짜 위험인지 압니다. 게임 <strong>냥누리</strong>도 여기서 만들고 있습니다.</p>
+<section id="about" style="padding-top:0">
+  <div class="wrap">
+    <div class="about rv">
+      <div class="sec-label">ABOUT</div>
+      <blockquote>비개발자가 AI로 세계를 짓는 곳.</blockquote>
+      <p>클로카 스튜디오는 <strong>1인 AI 스튜디오</strong>입니다. 제품과 서비스를 병행합니다. 고양이 게임 <strong>냥누리</strong>도 여기서 만들고 있습니다. 작게 시작해서, 검증으로 증명합니다.</p>
+    </div>
   </div>
 </section>
 
-<section id="contact">
+<section id="contact" style="padding-top:20px">
   <div class="wrap">
-    <div class="contact-box">
-      <div class="sec-label">CONTACT</div>
+    <div class="contact-box rv">
+      <div class="sec-label" style="justify-content:center">CONTACT</div>
       <h2>검증이 필요하신가요?</h2>
-      <p>파일럿 신청, 검증 의뢰, 협업 제안 모두 이메일로 받습니다.</p>
+      <p>파일럿 신청, 검증 의뢰, 협업 제안 — 이메일로 받습니다.</p>
       <a class="mail" href="mailto:jia.kwon.au@gmail.com">jia.kwon.au@gmail.com</a>
     </div>
   </div>
@@ -183,10 +342,17 @@
 
 <footer>
   <div class="wrap">
-    <div>© 2026 Kloca Studio</div>
-    <div>KLoCa Verified — 게이트·대상·버전·범위가 명시된 검증 리포트</div>
+    <div class="fbrand">Kloca Studio</div>
+    <div>© 2026 Kloca Studio · KLoCa Verified — 게이트·대상·버전·범위가 명시된 검증 리포트</div>
   </div>
 </footer>
+
+<script>
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold: .12});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
