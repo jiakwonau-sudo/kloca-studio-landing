@@ -6,7 +6,7 @@
 <title>Kloca Studio — 외주 앱 인수받기 전, 이것만은 확인하세요</title>
 <meta name="description" content="외주 개발 결과물을 인수받기 전, 계정·코드·데이터·도메인 8개 항목을 검증하고 리포트 한 부로 드립니다. Kloca Studio 인수인계 검증 파일럿.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kfonts/ridi-batang@0.2.0/index.min.css">
 <style>
   :root{
     --bg:#f6f3ed;
@@ -24,14 +24,14 @@
   body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;
     background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
   ::selection{background:var(--mint);color:var(--ink)}
-  .serif{font-family:'Noto Serif KR',serif}
+  .serif{font-family:'리디바탕','Noto Serif KR',serif}
   .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
 
   /* nav */
   nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(246,243,237,.88);
     backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
-  .brand{font-family:'Noto Serif KR',serif;font-weight:900;font-size:19px;letter-spacing:-.02em;
+  .brand{font-family:'리디바탕','Noto Serif KR',serif;font-weight:400;font-size:19px;letter-spacing:-.02em;
     text-decoration:none;color:var(--ink)}
   .navlinks{display:flex;gap:30px;font-size:14.5px;font-weight:500}
   .navlinks a{color:var(--muted);text-decoration:none;transition:color .2s}
@@ -44,7 +44,7 @@
   .hero{padding:170px 0 90px}
   .hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:56px;align-items:start}
   .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.2em;color:var(--mint-deep);margin-bottom:24px}
-  h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(36px,5.6vw,64px);
+  h1{font-family:'리디바탕','Noto Serif KR',serif;font-weight:400;font-size:clamp(36px,5.6vw,64px);
     letter-spacing:-.03em;line-height:1.28;margin-bottom:26px}
   h1 .u{position:relative;white-space:nowrap}
   h1 .u::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.32em;
@@ -61,14 +61,14 @@
   .hero-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:32px;
     box-shadow:0 24px 48px -24px rgba(23,23,21,.18);position:sticky;top:100px}
   .hero-card .card-label{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--mint-deep);margin-bottom:16px}
-  .hero-card h3{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:18px;letter-spacing:-.02em}
+  .hero-card h3{font-family:'리디바탕','Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:18px;letter-spacing:-.02em}
   .hero-card ul{list-style:none;margin-bottom:22px}
   .hero-card li{font-size:14.5px;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;gap:10px;align-items:baseline}
   .hero-card li:last-child{border-bottom:none}
   .hero-card li b{color:var(--mint-deep);font-weight:700}
   .hero-card .p-row{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
   .hero-card .p-row s{color:var(--muted);font-size:15px}
-  .hero-card .p-row strong{font-family:'Noto Serif KR',serif;font-size:34px;font-weight:900;letter-spacing:-.02em}
+  .hero-card .p-row strong{font-family:'리디바탕','Noto Serif KR',serif;font-size:34px;font-weight:400;letter-spacing:-.02em}
   .hero-card .p-row span{font-size:12.5px;color:var(--muted)}
   .hero-card .btn{width:100%;text-align:center}
 
@@ -76,7 +76,7 @@
   section{padding:96px 0}
   .sec-head{text-align:center;max-width:680px;margin:0 auto 60px}
   .sec-label{font-size:12.5px;font-weight:700;letter-spacing:.2em;color:var(--mint-deep);margin-bottom:16px}
-  h2{font-family:'Noto Serif KR',serif;font-size:clamp(28px,4vw,42px);font-weight:900;
+  h2{font-family:'리디바탕','Noto Serif KR',serif;font-size:clamp(28px,4vw,42px);font-weight:400;
     letter-spacing:-.025em;line-height:1.35;margin-bottom:14px}
   .sec-desc{color:var(--muted);font-size:16.5px}
 
@@ -84,16 +84,16 @@
   .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .col-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;
     box-shadow:0 16px 32px -20px rgba(23,23,21,.15)}
-  .col-card .cnum{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--mint-deep);
+  .col-card .cnum{font-family:'리디바탕','Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--mint-deep);
     letter-spacing:.1em;margin-bottom:14px}
-  .col-card h3{font-family:'Noto Serif KR',serif;font-size:21px;font-weight:700;margin-bottom:18px;letter-spacing:-.02em}
+  .col-card h3{font-family:'리디바탕','Noto Serif KR',serif;font-size:21px;font-weight:700;margin-bottom:18px;letter-spacing:-.02em}
   .col-card ul{list-style:none}
   .col-card li{font-size:15px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink)}
   .col-card li:last-child{border-bottom:none}
   .col-card li small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
   .col-card .step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
   .col-card .step:last-child{border-bottom:none}
-  .col-card .step b{font-family:'Noto Serif KR',serif;color:var(--mint-deep);font-size:17px;min-width:28px}
+  .col-card .step b{font-family:'리디바탕','Noto Serif KR',serif;color:var(--mint-deep);font-size:17px;min-width:28px}
   .col-card .step div strong{display:block;font-size:15px;margin-bottom:2px}
   .col-card .step div span{font-size:13.5px;color:var(--muted)}
   .verdict{display:inline-block;font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;margin:4px 6px 4px 0}
@@ -111,7 +111,7 @@
   .pilot p{color:#b9b5a9;max-width:560px;margin:0 auto 32px;font-size:16.5px}
   .pilot .price{margin-bottom:36px}
   .pilot .price s{color:#8a877e;font-size:17px;margin-right:14px}
-  .pilot .price strong{font-family:'Noto Serif KR',serif;font-size:52px;font-weight:900;letter-spacing:-.03em;color:#fff}
+  .pilot .price strong{font-family:'리디바탕','Noto Serif KR',serif;font-size:52px;font-weight:400;letter-spacing:-.03em;color:#fff}
   .pilot .price span{display:block;font-size:13.5px;color:#8a877e;margin-top:8px}
   .pilot .btn{background:var(--mint);color:var(--ink);font-size:16.5px;padding:17px 48px}
   .pilot .btn:hover{background:#fff}
@@ -122,14 +122,14 @@
   .lens-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:40px;
     box-shadow:0 24px 48px -24px rgba(23,23,21,.16)}
   .lens-card .l-label{font-size:12px;font-weight:700;letter-spacing:.18em;color:var(--mint-deep);margin-bottom:14px}
-  .lens-card h3{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:900;margin-bottom:12px;letter-spacing:-.02em}
+  .lens-card h3{font-family:'리디바탕','Noto Serif KR',serif;font-size:26px;font-weight:400;margin-bottom:12px;letter-spacing:-.02em}
   .lens-card p{color:var(--muted);font-size:15.5px;margin-bottom:24px;line-height:1.75}
   .product-copy h2{margin-bottom:16px}
   .product-copy p{color:var(--muted);font-size:16.5px;margin-bottom:28px;line-height:1.75}
 
   /* studio strip */
   .strip{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:44px 48px}
-  .strip h3{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+  .strip h3{font-family:'리디바탕','Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
   .strip .s-desc{color:var(--muted);font-size:15px;margin-bottom:28px}
   .svc-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .svc{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center}
@@ -138,16 +138,16 @@
 
   /* about + contact */
   .about p{font-size:19px;color:var(--muted);max-width:700px;margin:0 auto;text-align:center;line-height:1.8}
-  .about p strong{color:var(--ink);font-family:'Noto Serif KR',serif}
+  .about p strong{color:var(--ink);font-family:'리디바탕','Noto Serif KR',serif}
   .contact-box{background:var(--paper);border:1px solid var(--line);border-radius:30px;padding:72px 48px;text-align:center;
     box-shadow:0 24px 48px -24px rgba(23,23,21,.14)}
-  .mail{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.4vw,32px);font-weight:700;color:var(--ink);
+  .mail{font-family:'리디바탕','Noto Serif KR',serif;font-size:clamp(22px,3.4vw,32px);font-weight:700;color:var(--ink);
     text-decoration:none;border-bottom:3px solid var(--mint);padding-bottom:4px;transition:color .2s}
   .mail:hover{color:var(--mint-deep)}
 
   footer{border-top:1px solid var(--line);padding:36px 0 110px;color:var(--muted);font-size:13.5px}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  footer .fbrand{font-family:'Noto Serif KR',serif;font-weight:900;color:var(--ink)}
+  footer .fbrand{font-family:'리디바탕','Noto Serif KR',serif;font-weight:400;color:var(--ink)}
 
   .mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(23,23,21,.96);
     backdrop-filter:blur(8px);padding:12px 16px;gap:10px}
@@ -157,6 +157,30 @@
 
   .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
   .rv.in{opacity:1;transform:none}
+
+
+  /* ---------- verification steps ---------- */
+  .steps{display:flex;flex-direction:column;gap:18px}
+  .step-row{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:40px 44px;
+    display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:start;
+    box-shadow:0 16px 32px -22px rgba(23,23,21,.16)}
+  .step-head{display:flex;gap:18px;align-items:flex-start}
+  .snum{font-family:'리디바탕','Noto Serif KR',serif;font-size:44px;line-height:1;color:var(--mint-deep);min-width:52px}
+  .step-row h3{font-family:'리디바탕','Noto Serif KR',serif;font-size:23px;font-weight:400;letter-spacing:-.02em;line-height:1.4}
+  .step-row h3 em{font-style:normal;display:inline-block;font-family:'Pretendard Variable',Pretendard,sans-serif;
+    font-size:12px;font-weight:700;color:var(--mint-deep);background:var(--mint-pale);
+    padding:4px 12px;border-radius:999px;margin-left:10px;vertical-align:middle;letter-spacing:0}
+  .step-row ul{list-style:none}
+  .step-row ul li{font-size:15.5px;padding:10px 0 10px 22px;border-bottom:1px solid var(--line);position:relative;color:var(--ink-soft, #3a3a35)}
+  .step-row ul li:last-child{border-bottom:none}
+  .step-row ul li::before{content:"";position:absolute;left:2px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+  .methods{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px}
+  .methods li{display:flex;flex-direction:column;gap:2px}
+  .methods li::before{display:none}
+  .methods b{font-size:15px;color:var(--ink)}
+  .methods span{font-size:13.5px;color:var(--muted)}
+  .std{margin-top:18px;padding-top:18px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+  .std b{color:var(--ink)}
 
   @media(max-width:900px){
     .navlinks{display:none}
@@ -223,48 +247,49 @@
 <section id="detail" style="padding-top:40px">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="sec-label">WHAT YOU GET</div>
-      <h2>무엇을 검사하고,<br>무엇을 받는가.</h2>
+      <div class="sec-label">HOW IT WORKS</div>
+      <h2>검증은 이렇게 진행됩니다.</h2>
+      <p class="sec-desc">막연한 "확인"이 아닙니다. KLoCa Assurance Standard v1.5 기준으로<br>항목마다 판정과 근거를 남깁니다.</p>
     </div>
-    <div class="cols3">
-      <div class="col-card rv">
-        <div class="cnum">01</div>
-        <h3>검사 대상</h3>
+    <div class="steps">
+      <div class="step-row rv">
+        <div class="step-head"><span class="snum">1</span><h3>사전 상담 <em>무료</em></h3></div>
         <ul>
-          <li>관리자 계정 목록<small>정말 내 계정인가</small></li>
-          <li>저장소 소유권·접근 권한<small>코드를 내가 통제하는가</small></li>
-          <li>배포 구조·재배포 가능 여부<small>개발자가 떠나도 되는가</small></li>
-          <li>DB 구조·데이터 접근권<small>데이터에 닿을 수 있는가</small></li>
-          <li>환경변수·시크릿 관리<small>키가 안전하게 보관되는가</small></li>
-          <li>도메인 소유권<small>누구 명의인가</small></li>
-          <li>운영 문서<small>인수 후 운영이 가능한가</small></li>
-          <li>인프라·구독 비용 목록<small>매달 얼마가 나가는가</small></li>
+          <li>인수 대상 앱의 구조 파악 — 외주 계약 형태, 개발사와의 현재 관계</li>
+          <li>8개 항목 중 실제 검증 가능한 범위 확정</li>
+          <li>검증이 불가능하거나 의미 없다고 판단되면 진행하지 않습니다</li>
         </ul>
       </div>
-      <div class="col-card rv">
-        <div class="cnum">02</div>
-        <h3>받는 결과</h3>
+      <div class="step-row rv">
+        <div class="step-head"><span class="snum">2</span><h3>읽기 전용 권한 접수</h3></div>
         <ul>
-          <li><b>KLoCa 검증 리포트 1부</b><small>항목별 판정과 근거를 문서로</small></li>
-          <li><b>종합 판정</b><small>아래 셋 중 하나로 명시합니다</small></li>
-        </ul>
-        <div style="margin:16px 0">
-          <span class="verdict v-ok">인수 가능</span>
-          <span class="verdict v-mid">조건부 인수</span>
-          <span class="verdict v-no">지급 보류</span>
-        </div>
-        <ul>
-          <li>수정 권고 목록<small>고쳐야 할 것과 우선순위</small></li>
-          <li>재검증 기준<small>조건부 판정의 해소 조건</small></li>
+          <li>받는 것 — 관리자 계정 초대(읽기), 저장소 읽기 권한, 배포 문서, 도메인 등록 정보</li>
+          <li>쓰기 권한은 받지 않습니다. 고객 시스템에 아무것도 변경하지 않고 검증합니다</li>
+          <li>접수한 자료 목록을 먼저 공유하고 검증을 시작합니다</li>
         </ul>
       </div>
-      <div class="col-card rv">
-        <div class="cnum">03</div>
-        <h3>진행 과정</h3>
-        <div class="step"><b>1</b><div><strong>상담</strong><span>인수 대상과 현재 상황을 확인합니다</span></div></div>
-        <div class="step"><b>2</b><div><strong>자료 접근</strong><span>필요한 읽기 권한을 전달받습니다</span></div></div>
-        <div class="step"><b>3</b><div><strong>검증</strong><span>8개 항목을 하나씩 확인합니다</span></div></div>
-        <div class="step"><b>4</b><div><strong>리포트 전달</strong><span>판정과 권고를 문서로 드립니다</span></div></div>
+      <div class="step-row rv">
+        <div class="step-head"><span class="snum">3</span><h3>항목별 검증</h3></div>
+        <ul class="methods">
+          <li><b>관리자 계정</b><span>실제 로그인 테스트, 최고 권한 보유 여부</span></li>
+          <li><b>저장소</b><span>소유권 이전 상태, 메인 브랜치 보호, 커밋 이력 접근</span></li>
+          <li><b>재배포</b><span>배포 문서를 따라 직접 빌드·배포 재현 — 문서만 있고 안 되면 FAIL</span></li>
+          <li><b>DB</b><span>읽기 접속 테스트, 백업 존재 및 복원 가능 여부</span></li>
+          <li><b>시크릿</b><span>소스코드 내 하드코딩 여부, 접근 통제 상태</span></li>
+          <li><b>도메인</b><span>등록 명의 WHOIS 대조</span></li>
+          <li><b>운영 문서</b><span>인수 후 단독 운영 가능 수준 평가</span></li>
+          <li><b>비용</b><span>청구서 기반 월 고정비 산출</span></li>
+        </ul>
+        <p class="std">판정 코드 <b>PASS</b> / <b>FIX</b> / <b>BLOCK</b> / <b>UNKNOWN</b> — KLoCa Assurance Standard v1.5 적용</p>
+      </div>
+      <div class="step-row rv">
+        <div class="step-head"><span class="snum">4</span><h3>검증 리포트 전달 <em>자료 접수 후 3영업일 이내</em></h3></div>
+        <ul>
+          <li>항목별 판정표 — 항목, 판정, 근거(확인 일시·방법·결과)</li>
+          <li>종합 판정 — <span class="verdict v-ok">인수 가능</span><span class="verdict v-mid">조건부 인수</span><span class="verdict v-no">지급 보류</span></li>
+          <li>수정 권고 — 우선순위(P0~P3)와 함께. 조건부는 해소 조건과 재검증 기준 명시</li>
+          <li>리포트 설명 30분 미팅 포함</li>
+        </ul>
       </div>
     </div>
   </div>
