@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kloca Studio — AI Assurance Layer</title>
+<meta name="description" content="클로카 스튜디오는 AI 도입 전 과정의 독립 검증을 제공합니다. 진단, 교차검증, 제품 QA, 인수인계, 운영 QA.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --bg:#FAFAF7; --ink:#141412; --muted:#6B6B66; --line:#E8E8E2;
+    --accent:#1E5B45; --accent-soft:#EAF3EE; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  nav{position:sticky;top:0;background:rgba(250,250,247,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:800;font-size:18px;letter-spacing:-.02em}
+  .brand span{color:var(--accent)}
+  .navlinks{display:flex;gap:28px;font-size:15px}
+  .navlinks a{color:var(--muted);text-decoration:none}
+  .navlinks a:hover{color:var(--ink)}
+  .btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px}
+  .btn:hover{background:var(--accent)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);background:transparent}
+  header.hero{padding:110px 0 90px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:20px}
+  h1{font-size:clamp(34px,5.4vw,58px);font-weight:800;letter-spacing:-.03em;line-height:1.22;margin-bottom:24px}
+  .lede{font-size:19px;color:var(--muted);max-width:640px;margin-bottom:36px}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+  section{padding:72px 0;border-top:1px solid var(--line)}
+  .sec-label{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
+  h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:16px}
+  .sec-desc{color:var(--muted);max-width:640px;margin-bottom:40px;font-size:17px}
+  .gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .gate{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px}
+  .gate .num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
+  .gate h3{font-size:19px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+  .gate .q{font-size:15px;font-weight:600;color:var(--muted);margin-bottom:10px}
+  .gate p{font-size:15px;color:var(--muted)}
+  .pilot{background:var(--ink);color:#fff;border-radius:20px;padding:44px;margin-top:56px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+  .pilot .tag{display:inline-block;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;margin-bottom:14px;letter-spacing:.06em}
+  .pilot h3{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .pilot p{color:#B9B9B2;font-size:16px;max-width:520px}
+  .pilot .price{font-size:15px;color:#B9B9B2;margin-top:12px}
+  .pilot .price strong{color:#fff;font-size:22px}
+  .pilot .btn{background:#fff;color:var(--ink)}
+  .pilot .btn:hover{background:var(--accent-soft)}
+  .product{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .product h3{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+  .product p{color:var(--muted);font-size:17px;margin-bottom:20px}
+  .product .mock{background:var(--accent-soft);border-radius:20px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:15px}
+  .about p{font-size:18px;color:var(--muted);max-width:680px}
+  .about p strong{color:var(--ink)}
+  .contact-box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:44px;text-align:center}
+  .contact-box h2{margin-bottom:8px}
+  .contact-box p{color:var(--muted);margin-bottom:28px}
+  .mail{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none}
+  footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  @media(max-width:720px){
+    .navlinks{display:none}
+    header.hero{padding:72px 0 56px}
+    .product{grid-template-columns:1fr}
+    .pilot{padding:32px 24px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Kloca<span>·</span>Studio</div>
+    <div class="navlinks">
+      <a href="#services">서비스</a>
+      <a href="#product">제품</a>
+      <a href="#about">소개</a>
+      <a href="#contact">문의</a>
+    </div>
+    <a class="btn" href="#contact" style="padding:10px 20px;font-size:14px">검증 의뢰</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">KLOCA STUDIO — AI ASSURANCE LAYER</div>
+    <h1>AI가 만든 것을<br>믿기 전에 검사합니다.</h1>
+    <p class="lede">클로카 스튜디오는 AI 도입 전 과정의 독립 검증을 제공합니다. 제품을 직접 만드는 스튜디오이기에, 검증이 무엇을 놓치는지 압니다.</p>
+    <div class="cta-row">
+      <a class="btn" href="#contact">검증 의뢰하기</a>
+      <a class="btn btn-ghost" href="#services">서비스 보기</a>
+    </div>
+  </div>
+</header>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-label">SERVICES</div>
+    <h2>다섯 개의 검증 게이트</h2>
+    <p class="sec-desc">AI 도입의 각 단계마다 통과해야 할 검사입니다. 필요한 게이트만 골라 의뢰할 수 있습니다.</p>
+    <div class="gates">
+      <div class="gate">
+        <div class="num">01</div>
+        <h3>진단소</h3>
+        <div class="q">"만들 가치가 있는가?"</div>
+        <p>AI 도입 전, 만들지 말아야 할 것을 걸러냅니다. 기술 타당성과 비용 대비 효과를 먼저 따집니다.</p>
+      </div>
+      <div class="gate">
+        <div class="num">02</div>
+        <h3>교차검증소</h3>
+        <div class="q">"AI의 결과를 믿어도 되는가?"</div>
+        <p>문서·보고서·산출물을 복수 AI와 원문 대조로 교차검증합니다. 환각과 오류를 잡아냅니다.</p>
+      </div>
+      <div class="gate">
+        <div class="num">03</div>
+        <h3>제품 QA 검증소</h3>
+        <div class="q">"실제로 작동하는가?"</div>
+        <p>앱·자동화의 출시 전 독립 검수. 만든 팀이 아닌 제3자의 눈으로 품질을 확인합니다.</p>
+      </div>
+      <div class="gate">
+        <div class="num">04</div>
+        <h3>인수인계 검증</h3>
+        <div class="q">"고객이 통제하는가?"</div>
+        <p>외주 결과물을 넘겨받기 전, 계정·코드·데이터·도메인의 소유권과 재배포 가능성을 확인합니다.</p>
+      </div>
+      <div class="gate">
+        <div class="num">05</div>
+        <h3>운영 QA</h3>
+        <div class="q">"계속 통제되는가?"</div>
+        <p>변경·장애·품질을 지속적으로 감시합니다. AI 시스템이 시간이 지나도 망가지지 않게 합니다.</p>
+      </div>
+    </div>
+
+    <div class="pilot">
+      <div>
+        <span class="tag">파일럿 모집 중</span>
+        <h3>외주 앱 인수받기 전, 이것만은 확인하세요</h3>
+        <p>관리자 계정, 소스 저장소, 재배포 가능성, DB 접근권, 도메인 명의, 운영 비용 — 8개 항목을 검증하고 리포트로 드립니다. 수정 작업은 범위 밖, 수정 권고까지.</p>
+        <div class="price"><strong>39만원</strong> · 파일럿 특가 (정상가 79만원)</div>
+      </div>
+      <a class="btn" href="#contact">파일럿 신청</a>
+    </div>
+  </div>
+</section>
+
+<section id="product">
+  <div class="wrap">
+    <div class="sec-label">PRODUCT</div>
+    <h2>우리가 만든 제품</h2>
+    <p class="sec-desc">검증만 하는 게 아닙니다. 직접 만들고, 직접 부딪혀 봅니다.</p>
+    <div class="product">
+      <div class="mock">KLoCa Lens — 앱 화면</div>
+      <div>
+        <h3>KLoCa Lens</h3>
+        <p>장보기 전, 식품을 이해하는 AI 도구. 먹기 전에 무엇을 선택하고 살지 판단하도록 돕습니다. 식단 기준 설정, 식품 비교, 분량 계획, 장보기 목록까지.</p>
+        <a class="btn btn-ghost" href="https://nutrilens-site.vercel.app/app/" target="_blank" rel="noopener">베타 앱 열어보기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div class="sec-label">ABOUT</div>
+    <h2>비개발자가 AI로 세계를 짓는 곳</h2>
+    <p>클로카 스튜디오는 <strong>1인 AI 스튜디오</strong>입니다. 제품과 서비스를 병행합니다. 제품을 직접 만들어 본 사람이 검증해야, 무엇이 진짜 위험인지 압니다. 게임 <strong>냥누리</strong>도 여기서 만들고 있습니다.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <div class="sec-label">CONTACT</div>
+      <h2>검증이 필요하신가요?</h2>
+      <p>파일럿 신청, 검증 의뢰, 협업 제안 모두 이메일로 받습니다.</p>
+      <a class="mail" href="mailto:jia.kwon.au@gmail.com">jia.kwon.au@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Kloca Studio</div>
+    <div>KLoCa Verified — 게이트·대상·버전·범위가 명시된 검증 리포트</div>
+  </div>
+</footer>
+
+</body>
+</html>
