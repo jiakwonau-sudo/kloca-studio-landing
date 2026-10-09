@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#edf0f0" />
+    <title>KLoCa Lens — Premium Diet Intelligence</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥑</text></svg>" />
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <script type="module" crossorigin src="assets/index-CQlsQNY7.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-CQXCXyQ1.css">
+    <link rel="stylesheet" href="assets/reskin.css?v=20261010c">
+    <link rel="stylesheet" href="assets/muse.css?v=1791586118">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+    /* hide the "지금 {diet}에 좋은 재료부터" hero header (user request) */
+    (function(){
+      function hide(){
+        document.querySelectorAll('.section-head').forEach(function(h){
+          var t = h.querySelector('.section-title');
+          if(t && t.textContent.trim().indexOf('지금') === 0) h.style.display = 'none';
+        });
+      }
+      hide();
+      new MutationObserver(hide).observe(document.body, {childList:true, subtree:true});
+    })();
+    </script>
+    <script src="assets/muse-key.js"></script>
+    <script src="assets/muse-hero.js?v=1791586118"></script>
+  </body>
+</html>
