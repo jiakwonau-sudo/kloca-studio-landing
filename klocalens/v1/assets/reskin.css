@@ -1,0 +1,233 @@
+/* ============================================================
+   KLoCa Lens — Codex Resets Design · Mint Lemon Pink reskin
+   Sticker-sheet Neo-Brutalist overlay for the NutriLens build.
+   Loaded AFTER app.css. Only overrides — no original touched.
+   ============================================================ */
+
+:root {
+  /* canvas + surfaces — silver gray (user request, no yellow) */
+  --bg: #edf0f0;
+  --bg-deep: #dbe2e2;
+  --surface: #ffffff;
+  --surface-warm: #f4f6f6;
+
+  /* ink */
+  --ink: #1e1b16;
+  --ink-2: #57503f;
+  --ink-3: #8a8272;
+  --hairline: #1e1b1626;
+  --hairline-strong: #1e1b164d;
+
+  /* brand accents → Mint Lemon Pink */
+  --forest: #0d9488;          /* primary deep teal (was forest green) */
+  --forest-deep: #1e1b16;     /* deepest → ink */
+  --lime: #7debbb;            /* accent → mint (points only: AI elements) */
+  --lime-soft: #d3f8e4;
+  --cream: #f4f6f6;             /* neutral silver (was yellow) */
+  --green: #14b8a6;
+  --green-soft: #d3f8e4;
+  --yellow: #b45309;
+  --yellow-soft: #fdf3d0;
+  --red: #e11d48;
+  --red-soft: #fbd3dc;
+
+  /* nutrition rings — blue removed */
+  --ring-kcal: #0d9488;
+  --ring-carb: #fb923c;
+  --ring-protein: #f9a8d4;
+  --ring-fat: #ea580c;
+  --ring-fiber: #14b8a6;
+
+  /* hard offset shadows — no blur */
+  --shadow-float: 6px 6px 0 #1e1b16;
+  --shadow-soft: 4px 4px 0 #1e1b16;
+  --shadow-sheet: 0 -4px 0 #1e1b16;
+}
+
+/* ---------- sticker outlines on cards ---------- */
+.food-card,
+.pair-card,
+.recipe-card,
+.plan-card,
+.hist-card,
+.acct-card,
+.diet-badge {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+}
+
+/* ai-block: no heavy frame (user request) — keep inner cards soft */
+.ai-block {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* meal-group: no heavy frame, no white box (user request) */
+.meal-group {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* fnav widget: pinned next to app column on wide screens (user request) */
+@media (min-width: 801px) {
+  .fnav {
+    left: calc(50% + 212px) !important;
+  }
+}
+
+/* ---------- chips & buttons ---------- */
+.chip {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-weight: 700;
+}
+.chip:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+
+.cta,
+.cam-btn,
+.auth-btn,
+.step-btn {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 3px 3px 0 var(--ink) !important;
+}
+.cta:active, .cam-btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink) !important; }
+
+.icon-btn,
+.logo-mark,
+.backup-btn {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ---------- search ---------- */
+.search-shell {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+}
+
+/* ---------- lens identity: big scan CTA (user request) ---------- */
+.cam-btn {
+  width: auto !important;
+  height: 3.4rem !important;
+  padding: 0 1.6rem !important;
+  border-radius: 999px !important;
+  background: #0d9488 !important;
+  border: 2px solid var(--ink) !important;
+  box-shadow: 3px 3px 0 var(--ink) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .6rem !important;
+  flex: none !important;
+}
+.cam-btn::after {
+  content: "사진 찍기";
+  color: #fff !important;
+  font-weight: 800 !important;
+  font-size: 1.05rem !important;
+}
+.cam-btn svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+.cam-btn:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0 0 0 var(--ink) !important;
+}
+
+/* ---------- tabbar: dark pill → sticker pill ---------- */
+.tabbar {
+  background: var(--surface) !important;
+  border: 2px solid var(--ink) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.tab-btn { color: var(--ink-2) !important; }
+.tab-btn.on { background: var(--lemon, #fde047) !important; color: var(--ink) !important; border: 2px solid var(--ink); }
+
+/* ---------- bottom sheet ---------- */
+.sheet {
+  border: 2px solid var(--ink) !important;
+  border-bottom: none !important;
+  box-shadow: 0 -4px 0 var(--ink) !important;
+}
+
+/* ---------- diet badge: lemon, not mint (user request) ---------- */
+.diet-badge {
+  background: #fde047 !important;
+  color: var(--ink) !important;
+}
+
+/* ---------- sticker rotation ---------- */
+.logo-mark { transform: rotate(-6deg); }
+.diet-badge { transform: rotate(1.2deg); }
+.eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  box-shadow: 2px 2px 0 var(--ink);
+  transform: rotate(-1deg);
+}
+
+/* ---------- toast ---------- */
+.toast {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 3px 3px 0 var(--ink) !important;
+}
+
+/* ---------- brand: plain wordmark, no box on "Lens" (user request) ---------- */
+.brand-lens {
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* ---------- alt-links: revenue CTA (affiliate) ---------- */
+.alt-link {
+  border: 2px solid var(--ink) !important;
+  box-shadow: 3px 3px 0 var(--ink) !important;
+  background: #fde047 !important;
+  font-weight: 800 !important;
+}
+.alt-link:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink) !important; }
+
+/* ---------- food grid: 3 columns (user request) ---------- */
+.food-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: .5rem !important;
+}
+.food-card { padding: .7rem .5rem !important; }
+.f-sub { font-size: 11px !important; }
+
+/* ---------- dense grid cards: light treatment (user request) ----------
+   Many cards → 1px soft border. Standalone cards keep the 2px punch. */
+.food-grid .food-card {
+  border: 1px solid var(--hairline-strong) !important;
+  box-shadow: 2px 2px 0 rgba(30,27,22,.12) !important;
+}
+
+/* ---------- mint restrained: lemon for active states, mint = AI point only ---------- */
+.fnav-btn.on {
+  background: #fde047 !important;
+  color: var(--ink) !important;
+}
+.add-cta .add-ico {
+  background: #fde047 !important;
+  color: var(--ink) !important;
+}
+.undo-bar button {
+  background: var(--ink) !important;
+  color: #fff !important;
+}
+
+/* ---------- italic → normal (user request) ---------- */
+.brand-lens,
+em {
+  font-style: normal !important;
+}
