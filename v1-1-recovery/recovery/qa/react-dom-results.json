@@ -114,8 +114,36 @@
         "originalPreserved": true,
         "errors": 0
       }
+    },
+    {
+      "name": "v122 font migration, four levels, save and reload persistence",
+      "status": "PASS",
+      "detail": {
+        "levels": 4,
+        "migrated": true,
+        "profilePreserved": true,
+        "reloadLevel": 4
+      }
+    },
+    {
+      "name": "v122 clear confirms, cancels, preserves history and can undo after adding food",
+      "status": "PASS",
+      "detail": {
+        "cancelPreserves": true,
+        "clearPreservesHistory": true,
+        "undoMergesNewFood": true
+      }
+    },
+    {
+      "name": "v122 selected dashboard, settings grouping and empty actions",
+      "status": "PASS",
+      "detail": {
+        "selectedDashboard": true,
+        "groupedSettings": true,
+        "emptyActions": true
+      }
     }
   ],
-  "passed": 12,
-  "total": 12
+  "passed": 15,
+  "total": 15
 }

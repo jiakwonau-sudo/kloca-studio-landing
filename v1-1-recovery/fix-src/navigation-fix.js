@@ -59,6 +59,8 @@ function KlocaReadProfile(key, defaults) {
     KlocaPreserve(key, raw); return defaults;
   }
   var profile = { ...defaults, ...value };
+  // Existing 1.2.1 profiles move to the new middle size without touching food data.
+  if (value.fontSchema !== 2) { profile.fontScale = 1.25; profile.fontSchema = 2; }
   var changed = false;
   if (!Object.prototype.hasOwnProperty.call(b, profile.dietType)) {
     profile.dietType = defaults.dietType; changed = true;
@@ -127,15 +129,15 @@ function KlocaMuseHero() {
         j.jsx('span', { className: 'muse-finder-emoji', 'aria-hidden': true, children: '🥑' }),
         j.jsx('span', { className: 'muse-finder-hint', children: '접시 · 영수증 · 바코드 모두 OK' })
       ] }),
+    j.jsxs('div', { className: 'kloca-hero-actions', children: [
+      j.jsx('button', { type: 'button', className: 'kloca-source primary', onClick: () => dispatch({ type:'push', modal:{type:'scan', source:'camera'} }), children:'📷 찍기' }),
+      j.jsx('button', { type: 'button', className: 'kloca-source', onClick: () => dispatch({ type:'push', modal:{type:'scan', source:'gallery'} }), children:'🖼️ 사진 선택' })
+    ] }),
     j.jsx('button', { type: 'button', className: 'muse-collapse', 'aria-label': collapsed ? '펼치기' : '접기',
       'aria-expanded': !collapsed, onClick: toggle, children: collapsed ? '▼' : '▲' })
   ] });
 }
-function KlocaPhotoButton() {
-  var { dispatch } = M();
-  return j.jsx('button', { type: 'button', className: 'muse-photo-btn', 'aria-label': '사진 올리기',
-    onClick: () => dispatch({ type: 'push', modal: { type: 'scan' } }), children: '🖼️' });
-}
+function KlocaPhotoButton() { return null; }
 function KlocaVoiceButton({ onText }) {
   var [listening, setListening] = _.useState(false);
   var recognition = _.useRef(null);
@@ -183,6 +185,10 @@ function KlocaMainView() {
   var { state, dispatch } = M();
   var View = { home: It, table: Rt, history: Wt, dashboard: KlocaDashboardView }[state.tab] || It;
   return j.jsxs(j.Fragment, { children: [
+    state.clearUndo && j.jsxs('div', { className:'kloca-clear-undo', role:'status', children:[
+      j.jsx('span',{children:'식탁을 비웠어요'}),
+      j.jsx('button',{type:'button',onClick:()=>dispatch({type:'restoreTable'}),children:'되돌리기'})
+    ] }),
     KlocaRecovery.length > 0 && j.jsx('p', { className: 'kloca-data-notice', role: 'status',
       children: KlocaUnsavedRecovery.size > 0
         ? '일부 자료의 형식이 달라 화면에서 제외했습니다. 원본은 유지되며, 저장 공간 부족으로 복구 사본을 만들지 못했습니다.'
@@ -190,4 +196,50 @@ function KlocaMainView() {
     j.jsx(KlocaViewBoundary, { onRecover: () => { dispatch({ type: 'closeAll' }); dispatch({ type: 'setTab', tab: 'home' }); },
       children: j.jsx(View, {}) }, state.tab)
   ] });
+}
+
+function KlocaEmptyAction({ tab, label }) {
+  var { dispatch } = M();
+  return j.jsx('button', {type:'button',className:'cta kloca-empty-action',onClick:()=>{
+    if(tab==='home') KlocaStorageSet('muse-food-collapsed','0');
+    dispatch({type:'setTab',tab});
+  },children:label});
+}
+function KlocaClearTableButton() {
+  var {state,dispatch}=M();
+  var [confirm,setConfirm]=_.useState(false);
+  var opener=_.useRef(null);
+  var cancel=_.useRef(null);
+  _.useEffect(()=>{ if(confirm)cancel.current?.focus(); },[confirm]);
+  var close=()=>{setConfirm(false);opener.current?.focus();};
+  return j.jsxs(j.Fragment,{children:[
+    j.jsx('button',{ref:opener,type:'button',className:'kloca-clear-btn',onClick:()=>setConfirm(true),children:'전체 비우기'}),
+    confirm && j.jsx('div',{className:'kloca-confirm-backdrop',children:j.jsxs('div',{
+      className:'kloca-confirm',role:'dialog','aria-modal':true,'aria-labelledby':'clear-table-title',
+      onKeyDown:event=>{
+        if(event.key==='Escape'){event.stopPropagation();close();}
+        if(event.key==='Tab'){event.preventDefault();var buttons=event.currentTarget.querySelectorAll('button');(document.activeElement===buttons[0]?buttons[1]:buttons[0]).focus();}
+      },children:[
+        j.jsx('h2',{id:'clear-table-title',children:'식탁을 비울까요?'}),
+        j.jsx('p',{children:state.table.length+'개 식재료가 식탁에서 빠집니다. 먹은 기록은 유지돼요.'}),
+        j.jsxs('div',{className:'kloca-confirm-actions',children:[
+          j.jsx('button',{ref:cancel,type:'button',onClick:close,children:'취소'}),
+          j.jsx('button',{type:'button',className:'primary',onClick:()=>{dispatch({type:'clearTable'});close();},children:'비우기'})
+        ]})
+      ]})})
+  ]});
+}
+function KlocaFontOptions({ value, onChange }) {
+  var options=[{v:1.05,label:'작게'},{v:1.25,label:'중간'},{v:1.5,label:'크게'},{v:1.75,label:'아주 크게'}];
+  return j.jsxs('div',{className:'kloca-font-settings',children:[
+    j.jsx('h3',{className:'subhead',children:'보기 설정 · 글자 크기'}),
+    j.jsx('div',{className:'font-scale-row',children:options.map((option,index)=>j.jsxs('button',{
+      type:'button',className:'fs-opt '+(value===option.v?'on':''),'aria-pressed':value===option.v,
+      onClick:()=>onChange(option.v),children:[j.jsx('b',{children:index+1}),j.jsx('span',{children:option.label})]
+    },option.v))}),
+    j.jsxs('div',{className:'kloca-font-preview',style:{fontSize:16*value+'px'},children:[
+      j.jsx('b',{children:'아보카도 224 kcal'}),j.jsx('span',{style:{fontSize:12*value+'px'},children:'1개 · 140g — 이렇게 보여요'})
+    ]}),
+    j.jsx('p',{className:'kloca-setting-hint',children:'저장하면 화면 전체에 적용됩니다.'})
+  ]});
 }

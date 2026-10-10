@@ -61,17 +61,53 @@ rewrite('dn', (code, node) => {
   code = exact(code,
     '(0,j.jsxs)(`button`,{className:`cta`,onClick:()=>i.current?.click(),disabled:a,children:[a?`Gemini 분석 중…`:l?`다른 사진 선택`:`사진 찍기 / 선택`,(0,j.jsx)(`span`,{className:`cta-orb`,children:(0,j.jsx)(qe,{size:16})})]})',
     '(0,j.jsxs)(`div`,{className:`scan-source-actions`,children:[(0,j.jsx)(`button`,{type:`button`,className:`cta`,onClick:()=>i.current?.click(),disabled:a,children:`사진 찍기`}),(0,j.jsx)(`button`,{type:`button`,className:`cta ghost`,onClick:()=>h.current?.click(),disabled:a,children:`사진 선택`})]}),a&&(0,j.jsx)(`p`,{role:`status`,children:`Gemini 분석 중…`}),!d&&(0,j.jsxs)(`div`,{className:`scan-key-notice`,children:[(0,j.jsx)(`p`,{children:`사진 인식에는 Gemini 키가 필요해요. 선택한 사진은 인식 전에 미리 볼 수 있어요.`}),(0,j.jsx)(`button`,{type:`button`,className:`cta ghost`,onClick:()=>t({type:`push`,modal:{type:`settings`}}),children:`설정에서 키 등록하기`})]})');
+  code = exact(code, '};return(0,j.jsx)(Gt', '};(0,_.useEffect)(()=>{let source=e.modalStack[e.modalStack.length-1]?.source;if(source===`camera`)i.current?.click();if(source===`gallery`)h.current?.click()},[]);return(0,j.jsx)(Gt');
   return code;
 });
-rewrite('Tr', code => exact(code, 't({type:`setTab`,tab:`home`}),t({type:`setDash`,open:!0})', 't({type:`closeAll`}),t({type:`setTab`,tab:`dashboard`}),t({type:`setDash`,open:!0})'));
+rewrite('Tr', code => {
+ code=exact(code,'t({type:`setTab`,tab:`home`}),t({type:`setDash`,open:!0})','t({type:`closeAll`}),t({type:`setTab`,tab:`dashboard`}),t({type:`setDash`,open:!0})');
+ code=exact(code,'},[a]);let f=', '},[a,e.profile.fontScale]);let f=');
+ code=exact(code,'localStorage.getItem(br)!==`0`','localStorage.getItem(br)===`1`');
+ code=exact(code,'className:`fnav-btn ${e.tab===n.key?`on`:``}`','className:`fnav-btn ${e.tab===n.key?`on`:``}`,"aria-current":e.tab===n.key?`page`:void 0');
+ code=exact(code,'className:`fnav-btn`,onClick:h(','className:`fnav-btn ${e.tab===`dashboard`?`on`:``}`,"aria-current":e.tab===`dashboard`?`page`:void 0,onClick:h(');
+ return code;
+});
 rewrite('Er', code => {
   code = exact(code, 'className:`frame`', 'className:`frame kloca-muse ${e.tab===`home`?`muse-home`:``}`');
   code = exact(code, 'className:`logo-mark`,children:(0,j.jsx)(Kn,{size:26})', 'className:`logo-mark`,children:(0,j.jsxs)(j.Fragment,{children:[(0,j.jsx)(Kn,{size:26}),(0,j.jsx)(`span`,{className:`muse-handle`,"aria-hidden":!0})]})');
   code = exact(code, 'e.tab===`home`&&(0,j.jsx)(It,{}),e.tab===`table`&&(0,j.jsx)(Rt,{}),e.tab===`history`&&(0,j.jsx)(Wt,{})', '(0,j.jsx)(KlocaMainView,{})');
   return exact(code, '(0,j.jsx)(dr,{payResult:i})', '(0,j.jsx)(KlocaViewBoundary,{onRecover:()=>t({type:`closeAll`}),recoveryLabel:`닫기`,children:(0,j.jsx)(dr,{payResult:i})},`modal:${JSON.stringify(e.modalStack)}`)');
 });
+
+rewrite('Ge', code => {
+ // Replace the earlier Ge rewrite once, rather than adding overlapping edits.
+ return code;
+});
+edits.pop();
+const geEdit=edits.find(edit=>original.slice(edit.start,edit.start+12).startsWith('function Ge('));
+geEdit.text=exact(geEdit.text,'document.documentElement.style.setProperty(`--font-scale`,String(t.profile.fontScale))','document.documentElement.style.setProperty(`--font-scale`,String(t.profile.fontScale));document.documentElement.dataset.fontLevel=String(t.profile.fontScale>=1.75?4:t.profile.fontScale>=1.5?3:t.profile.fontScale>=1.25?2:1)');
+rewrite('ze',code=>exact(code,'case`clearUndo`:','case`clearTable`:return{...e,table:[],undo:null,clearUndo:e.table};case`restoreTable`:{let items=[...e.table];for(let old of e.clearUndo??[]){let found=items.find(x=>x.foodId===old.foodId&&x.meal===old.meal);if(found)items=items.map(x=>x.uid===found.uid?{...x,qty:Number((x.qty+old.qty).toFixed(2))}:x);else items.push(old)}return{...e,table:items,clearUndo:null}}case`clearUndo`:'));
+rewrite('Rt',code=>{
+ code=exact(code,'`여기서 끼니별로 정리할 수 있어요.`]})]})','`여기서 끼니별로 정리할 수 있어요.`]}),(0,j.jsx)(KlocaEmptyAction,{tab:`home`,label:`식재료 고르기`})]})');
+ return exact(code,'(0,j.jsx)(`button`,{className:`icon-btn`,onClick:async','(0,j.jsx)(KlocaClearTableButton,{}),(0,j.jsx)(`button`,{className:`icon-btn`,onClick:async');
+});
+rewrite('Wt',code=>exact(code,'`끼니별로 따로 저장돼요.`]})]})','`끼니별로 따로 저장돼요.`]}),(0,j.jsx)(KlocaEmptyAction,{tab:`table`,label:`식탁 보기`})]})'));
+rewrite('an',(code,node)=>{
+ const arr=node.body.body.at(-1).argument.arguments[1].properties.find(p=>p.key.name==='children').value;
+ const parts=arr.elements.map(n=>original.slice(n.start,n.end));
+ const font=parts.findIndex(x=>x.includes('children:`글자 크기`'));
+ const advanced=parts.findIndex(x=>x.includes('children:`고급 프로필`'));
+ const ai=parts.findIndex(x=>x.includes('children:`AI 연결 (선택)`'));
+ const backup=parts.findIndex(x=>x.includes('children:`데이터 백업`'));
+ function details(title,group){return '(0,j.jsxs)(`details`,{className:`kloca-settings-group`,children:[(0,j.jsx)(`summary`,{children:'+JSON.stringify(title)+'}),(0,j.jsxs)(`div`,{className:`kloca-settings-content`,children:['+group.join(',')+']})]})'}
+ const revised=['(0,j.jsx)(KlocaFontOptions,{value:c,onChange:l})',...parts.slice(0,font),details('고급 프로필',parts.slice(advanced+1,ai)),details('AI 연결',parts.slice(ai+1,backup)),details('백업',parts.slice(backup+1,-2)),'(0,j.jsx)(`div`,{className:`kloca-settings-save`,children:'+parts.at(-1)+'})'];
+ code=code.slice(0,arr.start-node.start)+'['+revised.join(',')+']'+code.slice(arr.end-node.start);
+ return exact(code,'profile:{fontScale:c,','profile:{fontScale:c,fontSchema:2,');
+});
+
 let code = original;
 for (const edit of edits.sort((a,b)=>b.start-a.start)) code = code.slice(0,edit.start)+edit.text+code.slice(edit.end);
+code=exact(code,'fontScale:1,allergies:','fontScale:1.25,fontSchema:2,allergies:');
 // Empty only the built-in default. Existing user-entered keys stay in their profile.
 code = code.replace(/geminiKey:"AIza[^"\n]+"/, 'geminiKey:""');
 code = code.replace(/localStorage\.getItem\(/g, 'KlocaStorageGet(').replace(/localStorage\.setItem\(/g, 'KlocaStorageSet(');
@@ -83,7 +119,7 @@ fs.mkdirSync(path.join(target,'assets'), { recursive: true });
 for (const name of ['index-CQXCXyQ1.css','reskin.css','logo-lens.webp']) fs.copyFileSync(path.join(source,'assets',name),path.join(target,'assets',name));
 fs.writeFileSync(path.join(target,'assets/index-navigation-fix-v1.js'),code);
 let html = fs.readFileSync(path.join(source,'index.html'),'utf8');
-html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1.2.1</title>\n    <meta name="application-version" content="1.2.1" />');
+html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1.2.2</title>\n    <meta name="application-version" content="1.2.2" />');
 html = html.replace('assets/index-CQlsQNY7.js', 'assets/index-navigation-fix-v1.js');
 html = html.replace(/<script>\s*\/\* hide the[\s\S]*?<\/script>/, '');
 html = html.replace(/\s*<script src="assets\/muse-(?:hero|key)\.js[^<]*<\/script>/g, '');
@@ -110,5 +146,6 @@ css += `\n/* Navigation fix v1: all these elements are rendered by React. */
 .scan-source-actions .cta { width:100%; justify-content:center; }
 .scan-key-notice { margin-top:1rem; font-size:.85rem; }
 `;
+css += fs.readFileSync(path.join(__dirname,'ux-v122.css'),'utf8');
 fs.writeFileSync(path.join(target,'assets/muse.css'),css);
 console.log(JSON.stringify({ target, sourceGitBlob:blob, files:fs.readdirSync(path.join(target,'assets')), browserVerification:'pending' }));

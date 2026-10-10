@@ -66,7 +66,7 @@ const fixed = path.join(base,'fixed/muse-version');
   });
   await check('fixed React renders the scan hero and search controls',async()=>{
     const p=await page(fixed);
-    try {assert.ok(p.doc.querySelector('#root .muse-scan-hero'));assert.ok(p.doc.querySelector('.muse-finder'));button(p,'사진 올리기');button(p,'음성 검색');assert.equal(p.doc.querySelectorAll('.rings-core').length,0);return {heroInsideReact:true,homeDashboardCount:0};}
+    try {assert.ok(p.doc.querySelector('#root .muse-scan-hero'));assert.ok(p.doc.querySelector('.muse-finder'));button(p,'🖼️ 사진 선택');button(p,'음성 검색');assert.equal(p.doc.querySelectorAll('.rings-core').length,0);return {heroInsideReact:true,homeDashboardCount:0};}
     finally {p.dom.window.close();}
   });
   await check('fixed menus retain the React root through 40 navigation cycles',async()=>{
@@ -86,7 +86,7 @@ const fixed = path.join(base,'fixed/muse-version');
     const p=await page(fixed);
     try {
       await click(p,'사진으로 검색');assert.ok(p.doc.querySelector('.sheet'));await click(p,'닫기');assert.equal(p.doc.querySelectorAll('.sheet').length,0);
-      await click(p,'사진 올리기');assert.ok(p.doc.querySelector('.sheet'));await click(p,'닫기');
+      await click(p,'🖼️ 사진 선택');assert.ok(p.doc.querySelector('.sheet'));await click(p,'닫기');
       await click(p,'AI 영양사');assert.ok(p.doc.querySelector('.sheet'));await click(p,'닫기');assert.equal(p.doc.querySelectorAll('.sheet').length,0);
       assert.deepEqual(p.errors,[]);return {modalOpens:3,modalCloses:3,errors:0};
     } finally {p.dom.window.close();}
@@ -136,6 +136,43 @@ const fixed = path.join(base,'fixed/muse-version');
     const p=await page(fixed,false,{'nutrilens.history':raw});
     try {await click(p,'기록');await click(p,'대시보드 바로가기');await click(p,'AI 영양사');await click(p,'닫기');assert.equal(p.w.localStorage.getItem('nutrilens.history.recovery.v1'),raw);assert.deepEqual(p.errors,[]);return {originalPreserved:true,errors:0};}
     finally {p.dom.window.close();}
+  });
+
+  await check('v122 font migration, four levels, save and reload persistence',async()=>{
+    const p=await page(fixed,false,{'nutrilens.profile':JSON.stringify({fontScale:1,allergies:['새우'],geminiKey:'TEST_ONLY_NOT_A_KEY'})});
+    try {
+      assert.equal(p.doc.documentElement.dataset.fontLevel,'2');
+      let stored=JSON.parse(p.w.localStorage.getItem('nutrilens.profile'));assert.equal(stored.fontScale,1.25);assert.equal(stored.geminiKey,'TEST_ONLY_NOT_A_KEY');assert.deepEqual(stored.allergies,['새우']);
+      for(const [label,scale,level] of [['1작게',1.05,'1'],['2중간',1.25,'2'],['3크게',1.5,'3'],['4아주 크게',1.75,'4']]){
+        p.doc.querySelector('.diet-badge').click();await sleep(35);await click(p,label);await click(p,'저장하기');
+        assert.equal(p.doc.documentElement.style.getPropertyValue('--font-scale'),String(scale));assert.equal(p.doc.documentElement.dataset.fontLevel,level);
+      }
+      const q=await page(fixed,false,{'nutrilens.profile':p.w.localStorage.getItem('nutrilens.profile')});try{assert.equal(q.doc.documentElement.dataset.fontLevel,'4');}finally{q.dom.window.close();}
+      assert.deepEqual(p.errors,[]);return {levels:4,migrated:true,profilePreserved:true,reloadLevel:4};
+    }finally{p.dom.window.close();}
+  });
+  await check('v122 clear confirms, cancels, preserves history and can undo after adding food',async()=>{
+    const initial=[{uid:'qa-egg',foodId:'egg',qty:2,meal:1},{uid:'qa-egg-2',foodId:'egg',qty:1,meal:2}];
+    const history=[{id:'qa-history',ts:1,meal:1,items:[],totals:{kcal:0,carbs:0,fiber:0,netCarbs:0,protein:0,fat:0,grams:0}}];
+    const p=await page(fixed,false,{'nutrilens.table':JSON.stringify(initial),'nutrilens.history':JSON.stringify(history)});
+    try{
+      await click(p,'식탁');await click(p,'전체 비우기');assert.ok(p.doc.querySelector('[role="dialog"]'));await click(p,'취소');assert.deepEqual(JSON.parse(p.w.localStorage.getItem('nutrilens.table')),initial);
+      await click(p,'전체 비우기');await click(p,'비우기');assert.deepEqual(JSON.parse(p.w.localStorage.getItem('nutrilens.table')),[]);assert.deepEqual(JSON.parse(p.w.localStorage.getItem('nutrilens.history')),history);
+      await click(p,'되돌리기');assert.deepEqual(JSON.parse(p.w.localStorage.getItem('nutrilens.table')),initial);
+      await click(p,'전체 비우기');await click(p,'비우기');await click(p,'식재료 고르기');assert.equal(p.doc.querySelector('.muse-market-content').hidden,false);
+      p.doc.querySelector('.food-card').click();await sleep(35);const add=p.doc.querySelector('.add-cta');assert.ok(add);add.click();await sleep(35);await click(p,'되돌리기');
+      const restored=JSON.parse(p.w.localStorage.getItem('nutrilens.table'));assert.equal(restored.reduce((n,x)=>n+x.qty,0),4);assert.deepEqual(JSON.parse(p.w.localStorage.getItem('nutrilens.history')),history);
+      assert.deepEqual(p.errors,[]);return{cancelPreserves:true,clearPreservesHistory:true,undoMergesNewFood:true};
+    }finally{p.dom.window.close();}
+  });
+  await check('v122 selected dashboard, settings grouping and empty actions',async()=>{
+    const p=await page(fixed);
+    try{
+      await click(p,'대시보드 바로가기');assert.equal(button(p,'대시보드 바로가기').getAttribute('aria-current'),'page');assert.ok(button(p,'대시보드 바로가기').classList.contains('on'));
+      await click(p,'식탁');button(p,'식재료 고르기');await click(p,'기록');await click(p,'식탁 보기');assert.ok(p.doc.querySelector('.section-title').textContent.includes('식탁'));
+      p.doc.querySelector('.diet-badge').click();await sleep(35);assert.equal(p.doc.querySelectorAll('.kloca-settings-group').length,3);assert.equal(p.doc.querySelectorAll('.kloca-settings-group[open]').length,0);assert.ok(p.doc.querySelector('.kloca-settings-save'));await click(p,'닫기');assert.deepEqual(p.errors,[]);
+      return {selectedDashboard:true,groupedSettings:true,emptyActions:true};
+    }finally{p.dom.window.close();}
   });
   const output={environment:'JSDOM 30.1.2 + actual bundled React and React DOM; no mocked hooks, renderer or error boundaries',browserLayout:'unverified',results,passed:results.filter(r=>r.status==='PASS').length,total:results.length};
   fs.mkdirSync(path.join(base,'recovery/qa'),{recursive:true});
