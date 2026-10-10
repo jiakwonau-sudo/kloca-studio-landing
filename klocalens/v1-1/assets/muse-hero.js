@@ -277,7 +277,12 @@
     var tmp = document.createElement('div');
     tmp.innerHTML = HERO_HTML;
     var hero = tmp.firstElementChild;
-    wrap.parentNode.insertBefore(hero, wrap);
+    // Inject OUTSIDE React's managed DOM to avoid virtual DOM mismatch crashes.
+    // Append to body and position via CSS instead of inserting into React tree.
+    hero.id = 'muse-hero-outside-react';
+    document.body.appendChild(hero);
+    // Position it visually where the search-wrap is, via CSS fixed/absolute
+    // (CSS handles the visual placement; see muse.css #muse-hero-outside-react)
 
     hero.querySelector('#museFinder').addEventListener('click', takePhoto);
 
