@@ -173,7 +173,7 @@
 
 /* (logo styles consolidated above) */
 /* home: hide redundant camera button in search bar (hero covers it) */
-.muse-has-hero .search-wrap .cam-btn {
+.muse-home .search-wrap .cam-btn {
   display: none !important;
 }
 
@@ -188,42 +188,12 @@
   padding: 0.2rem 0.5rem;
 }
 
-.muse-scan-hero.collapsed .muse-finder,
-.muse-scan-hero.collapsed .muse-scan-row,
-.muse-scan-hero.collapsed .muse-icon-row,
-.muse-scan-hero.collapsed 
-.muse-scan-hero.collapsed {
-  padding: 0.3rem 0;
-  margin-bottom: 0.5rem;
-}
-
-/* home dashboard: completely hidden (user request) */
-.muse-has-hero .dash-head,
-.muse-has-hero .dash-mini,
-.muse-has-hero .dash-collapsed,
-.muse-has-hero .dash-expand,
-.muse-has-hero .dash-toggle-icon,
-.muse-has-hero [class*="dash-"] {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-/* when hero collapsed, also hide dashboard */
-body.muse-hero-collapsed .dash-head,
-body.muse-hero-collapsed .dash-mini,
-body.muse-hero-collapsed .dash-collapsed,
-body.muse-hero-collapsed .dash-expand,
-body.muse-hero-collapsed [class*="dash-"] {
-  display: none !important;
-}
+.muse-scan-hero.collapsed .muse-finder { display: none; }
+.muse-scan-hero.collapsed { min-height: 2rem; padding: 0.3rem 0; margin-bottom: 0.5rem; }
 
 /* home: hide duplicate History button (keep eaten records) */
-.muse-has-hero button[aria-label*="History"],
-.muse-has-hero button[aria-label*="히스토리"] {
+.muse-home button[aria-label*="History"],
+.muse-home button[aria-label*="히스토리"] {
   display: none !important;
 }
 
@@ -241,3 +211,14 @@ body.muse-hero-collapsed [class*="dash-"] {
   right: 0.5rem;
   z-index: 10;
 }
+
+/* Navigation fix v1: all these elements are rendered by React. */
+.muse-finder { width:100%; font-family:inherit; padding:0; }
+.muse-photo-btn, .muse-voice-btn { font-size:1.3rem; padding:.3rem .5rem; cursor:pointer; background:none; border:0; }
+.muse-section-toggle { display:block; margin:.6rem 0; padding:.4rem 0; background:none; border:0; color:var(--ink-2); font:inherit; cursor:pointer; }
+.muse-market-content[hidden] { display:none !important; }
+.muse-market-content > .section > .section-head { display:none; }
+.muse-dashboard .section-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.kloca-recovery { border:2px solid var(--forest); padding:1rem; border-radius:1rem; }
+.kloca-recovery .cta { margin-top:.6rem; }
+.kloca-data-notice { padding:.8rem; background:var(--surface-warm); border-left:4px solid var(--forest); border-radius:.6rem; font-size:.9rem; }

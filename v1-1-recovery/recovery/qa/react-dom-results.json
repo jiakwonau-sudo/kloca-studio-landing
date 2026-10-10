@@ -1,0 +1,92 @@
+{
+  "environment": "JSDOM 30.1.2 + actual bundled React and React DOM; no mocked hooks, renderer or error boundaries",
+  "browserLayout": "unverified",
+  "results": [
+    {
+      "name": "current helper misses React render and produces no scan hero",
+      "status": "PASS",
+      "detail": {
+        "heroCount": 0,
+        "rootPresent": true
+      }
+    },
+    {
+      "name": "historical scan version fails at 기록",
+      "status": "PASS",
+      "detail": {
+        "errors": [
+          {
+            "name": "NotFoundError",
+            "message": "The node to be removed is not a child of this node."
+          }
+        ],
+        "rootEmpty": true
+      }
+    },
+    {
+      "name": "historical scan version fails at 식탁",
+      "status": "PASS",
+      "detail": {
+        "errors": [
+          {
+            "name": "NotFoundError",
+            "message": "The node to be removed is not a child of this node."
+          }
+        ],
+        "rootEmpty": true
+      }
+    },
+    {
+      "name": "historical dashboard action leaves the removed dashboard missing",
+      "status": "PASS",
+      "detail": {
+        "dashboardCount": 0,
+        "rootPresent": true,
+        "directWhiteScreenReproduced": false
+      }
+    },
+    {
+      "name": "fixed React renders the scan hero and search controls",
+      "status": "PASS",
+      "detail": {
+        "heroInsideReact": true,
+        "homeDashboardCount": 0
+      }
+    },
+    {
+      "name": "fixed menus retain the React root through 40 navigation cycles",
+      "status": "PASS",
+      "detail": {
+        "cycles": 40,
+        "menuClicks": 200,
+        "errors": 0
+      }
+    },
+    {
+      "name": "fixed scan and nutritionist modals open and close with actual React",
+      "status": "PASS",
+      "detail": {
+        "modalOpens": 3,
+        "modalCloses": 3,
+        "errors": 0
+      }
+    },
+    {
+      "name": "fixed collapsed hero survives leaving and returning home",
+      "status": "PASS",
+      "detail": {
+        "statePreserved": true
+      }
+    },
+    {
+      "name": "fixed malformed records preserve the exact original and keep menus working",
+      "status": "PASS",
+      "detail": {
+        "originalPreserved": true,
+        "errors": 0
+      }
+    }
+  ],
+  "passed": 9,
+  "total": 9
+}
