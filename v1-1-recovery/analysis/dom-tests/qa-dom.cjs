@@ -115,6 +115,21 @@ const fixed = path.join(base,'fixed/muse-version');
     try {await click(p,'접기');assert.ok(p.doc.querySelector('.muse-scan-hero.collapsed'));await click(p,'기록');await click(p,'홈');assert.ok(p.doc.querySelector('.muse-scan-hero.collapsed'));await click(p,'펼치기');assert.ok(!p.doc.querySelector('.muse-scan-hero.collapsed'));assert.deepEqual(p.errors,[]);return {statePreserved:true};}
     finally {p.dom.window.close();}
   });
+  await check('ingredients start collapsed with a clear invitation and remember the user choice',async()=>{
+    const p=await page(fixed);
+    try {
+      assert.equal(p.doc.querySelector('.muse-market-content').hidden,true);
+      assert.ok(button(p,'식품 목록 펼치기').textContent.includes('눌러서 펼치기'));
+      await click(p,'식품 목록 펼치기');assert.equal(p.doc.querySelector('.muse-market-content').hidden,false);
+      assert.equal(p.w.localStorage.getItem('muse-food-collapsed'),'0');
+      await click(p,'기록');await click(p,'홈');assert.equal(p.doc.querySelector('.muse-market-content').hidden,false);
+      await click(p,'식품 목록 접기');assert.equal(p.doc.querySelector('.muse-market-content').hidden,true);
+      assert.equal(p.w.localStorage.getItem('muse-food-collapsed'),'1');assert.deepEqual(p.errors,[]);
+      const returning=await page(fixed,false,{'muse-food-collapsed':'0'});
+      try {assert.equal(returning.doc.querySelector('.muse-market-content').hidden,false);} finally {returning.dom.window.close();}
+      return {firstVisitCollapsed:true,visibleInvitation:true,previousOpenChoicePreserved:true};
+    } finally {p.dom.window.close();}
+  });
   await check('fixed malformed records preserve the exact original and keep menus working',async()=>{
     const raw=JSON.stringify([{id:'history-broken',ts:Date.now(),meal:1,items:null,totals:null}]);
     const p=await page(fixed,false,{'nutrilens.history':raw});

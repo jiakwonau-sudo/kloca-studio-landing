@@ -152,13 +152,19 @@ function KlocaVoiceButton({ onText }) {
     }, children: listening ? '●' : '🎤' });
 }
 function KlocaMarketSection({ children }) {
-  var [collapsed, setCollapsed] = _.useState(() => KlocaStorageGet('muse-food-collapsed') === '1');
+  var [collapsed, setCollapsed] = _.useState(() => {
+    var saved = KlocaStorageGet('muse-food-collapsed');
+    return saved === null || saved === '1';
+  });
   return j.jsxs('div', { className: 'muse-market-section', children: [
-    j.jsx('button', { type: 'button', className: 'muse-section-toggle', 'aria-expanded': !collapsed,
+    j.jsxs('button', { type: 'button', className: 'muse-section-toggle', 'aria-expanded': !collapsed,
       'aria-label': collapsed ? '식품 목록 펼치기' : '식품 목록 접기',
       onClick: () => setCollapsed(previous => {
         KlocaStorageSet('muse-food-collapsed', previous ? '0' : '1'); return !previous;
-      }), children: collapsed ? '식품 목록 ▼' : '식품 목록 ▲' }),
+      }), children: [
+        j.jsx('span', { className: 'muse-section-label', children: collapsed ? '식재료 보기 ▾' : '식재료 접기 ▴' }),
+        collapsed && j.jsx('span', { className: 'muse-section-hint', children: '눌러서 펼치기' })
+      ] }),
     j.jsx('div', { className: 'muse-market-content', hidden: collapsed, children })
   ] });
 }

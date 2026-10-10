@@ -99,6 +99,15 @@
       }
     },
     {
+      "name": "ingredients start collapsed with a clear invitation and remember the user choice",
+      "status": "PASS",
+      "detail": {
+        "firstVisitCollapsed": true,
+        "visibleInvitation": true,
+        "previousOpenChoicePreserved": true
+      }
+    },
+    {
       "name": "fixed malformed records preserve the exact original and keep menus working",
       "status": "PASS",
       "detail": {
@@ -107,6 +116,6 @@
       }
     }
   ],
-  "passed": 11,
-  "total": 11
+  "passed": 12,
+  "total": 12
 }

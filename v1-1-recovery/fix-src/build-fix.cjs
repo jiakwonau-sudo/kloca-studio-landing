@@ -96,7 +96,9 @@ css = css.replace(/\.muse-scan-hero\.collapsed \.muse-finder,[\s\S]*?\n}\n\n/, '
 css += `\n/* Navigation fix v1: all these elements are rendered by React. */
 .muse-finder { width:100%; font-family:inherit; padding:0; }
 .muse-photo-btn, .muse-voice-btn { font-size:1.3rem; padding:.3rem .5rem; cursor:pointer; background:none; border:0; }
-.muse-section-toggle { display:block; margin:.6rem 0; padding:.4rem 0; background:none; border:0; color:var(--ink-2); font:inherit; cursor:pointer; }
+.muse-section-toggle { display:flex; align-items:center; justify-content:space-between; gap:.5rem; width:100%; margin:.8rem 0; padding:.85rem 1rem; background:#fff4a4; border:2px solid var(--ink); border-radius:1rem; color:var(--ink); font:inherit; cursor:pointer; box-shadow:2px 3px 0 var(--ink); }
+.muse-section-label { font-weight:700; }
+.muse-section-hint { font-size:.8rem; opacity:.75; }
 .muse-market-content[hidden] { display:none !important; }
 .muse-market-content > .section > .section-head { display:none; }
 .muse-dashboard .section-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
