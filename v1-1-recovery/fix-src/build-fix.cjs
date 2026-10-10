@@ -1,7 +1,13 @@
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const runtime = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES;
-if (!runtime) throw new Error('Set CODEX_PRIMARY_RUNTIME_NODE_MODULES to the provided runtime dependencies.');
-const { babelParse } = require(path.join(runtime, 'playwright/lib/transform/babelBundle.js'));
+let babelParse;
+try {
+  const { parse } = require('@babel/parser');
+  babelParse = code => parse(code, { sourceType: 'module' });
+} catch (error) {
+  if (!runtime) throw new Error('Run npm ci before building.');
+  ({ babelParse } = require(path.join(runtime, 'playwright/lib/transform/babelBundle.js')));
+}
 const base = path.resolve(__dirname, '..');
 const source = path.resolve(process.argv[2] || path.join(base, 'original/muse-version'));
 const target = path.join(base, 'fixed/muse-version');
@@ -9,7 +15,7 @@ const original = fs.readFileSync(path.join(source, 'assets/index-CQlsQNY7.js'), 
 const expected = '05669073c718d55fdd0548198d9834545fe879cc';
 const bytes = Buffer.from(original);
 const blob = crypto.createHash('sha1').update(Buffer.concat([Buffer.from(`blob ${bytes.length}\0`), bytes])).digest('hex');
-if (blob !== expected) throw new Error('Input is a different app version; refusing to patch unknown code.');
+if (![expected, '8687c8a15c655b1dd66e279721354df534003c00'].includes(blob)) throw new Error('Input is a different app version; refusing to patch unknown code.');
 const ast = babelParse(original, 'app.js', true);
 const edits = [];
 function exact(code, before, after) {
@@ -77,7 +83,7 @@ fs.mkdirSync(path.join(target,'assets'), { recursive: true });
 for (const name of ['index-CQXCXyQ1.css','reskin.css','logo-lens.webp']) fs.copyFileSync(path.join(source,'assets',name),path.join(target,'assets',name));
 fs.writeFileSync(path.join(target,'assets/index-navigation-fix-v1.js'),code);
 let html = fs.readFileSync(path.join(source,'index.html'),'utf8');
-html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1-2</title>\n    <meta name="application-version" content="1-2" />');
+html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1.2.1</title>\n    <meta name="application-version" content="1.2.1" />');
 html = html.replace('assets/index-CQlsQNY7.js', 'assets/index-navigation-fix-v1.js');
 html = html.replace(/<script>\s*\/\* hide the[\s\S]*?<\/script>/, '');
 html = html.replace(/\s*<script src="assets\/muse-(?:hero|key)\.js[^<]*<\/script>/g, '');
