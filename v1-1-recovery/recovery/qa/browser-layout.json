@@ -1,0 +1,83 @@
+[
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 345,
+    "columns": "115.5px 115.5px",
+    "fontLevel": "3",
+    "headerOverlap": false,
+    "scrollWidth": 345,
+    "width": 360
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 375,
+    "columns": "130.5px 130.5px",
+    "fontLevel": "3",
+    "headerOverlap": false,
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 399,
+    "columns": "142.5px 142.5px",
+    "fontLevel": "3",
+    "headerOverlap": false,
+    "scrollWidth": 399,
+    "width": 414
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 345,
+    "columns": "74.3281px 74.3281px 74.3438px",
+    "fontLevel": "2",
+    "headerOverlap": false,
+    "scrollWidth": 345,
+    "width": 360
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 375,
+    "columns": "84.3281px 84.3281px 84.3438px",
+    "fontLevel": "2",
+    "headerOverlap": false,
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 399,
+    "columns": "92.3281px 92.3281px 92.3438px",
+    "fontLevel": "2",
+    "headerOverlap": false,
+    "scrollWidth": 399,
+    "width": 414
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 345,
+    "columns": "239px",
+    "fontLevel": "4",
+    "headerOverlap": false,
+    "scrollWidth": 345,
+    "width": 360
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 375,
+    "columns": "269px",
+    "fontLevel": "4",
+    "headerOverlap": false,
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "cardTextOverflow": false,
+    "clientWidth": 399,
+    "columns": "293px",
+    "fontLevel": "4",
+    "headerOverlap": false,
+    "scrollWidth": 399,
+    "width": 414
+  }
+]

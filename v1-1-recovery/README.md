@@ -1,7 +1,29 @@
-# v1-1 scan and navigation repair
+# KLoCa Lens v1.2.3
 
-The production main branch is unchanged. This branch's `klocalens/v1-1/` is the candidate app. `klocalens/v1/` is unchanged.
+누적 UX 요청 8개를 구조적 의존 관계에 따라 통합한 검토 버전입니다. 적용 결정은 DECISIONS.md에 기록했습니다.
 
-Read RESTORE_REPORT.md for verified history, crash reproduction and limitations. The complete ZIP contains the current and historical fixtures needed by analysis/dom-tests/qa-dom.cjs; they are not duplicated here. Run QA from the ZIP root after npm ci in analysis/dom-tests. Hooks and React DOM are real; browser layout is unverified.
+## 실행과 빌드
 
-Rebuild using fix-src/build-fix.cjs with the original attached deployment directory as its source. It writes fixed/muse-version inside the recovery working folder. The original input Git blob must match the builder's guard.
+- 바로 실행할 파일: `fixed/muse-version/index.html`. HTTP 서버로 `fixed/muse-version` 디렉터리를 제공하세요.
+- 검토 주소: https://klocalens-v1-2.vercel.app/
+- 설치: Node.js 22 이상에서 `npm ci`
+- 빌드: `npm run build`
+- 통합 검증: `npm test`
+- 모바일 폭 검토용 페이지: `fixed/muse-version/qa-mobile.html`
+
+## 소스 범위
+
+이 패키지는 전달받은 컴파일된 React 번들, 수정 소스(`fix-src`), 재현 가능한 빌드 스크립트와 회귀 테스트를 포함합니다. 원본 개발 프로젝트의 전체 TSX 소스는 제공받지 못했으므로 이 ZIP을 원본 TSX 프로젝트로 표현하지 않습니다. `original`과 `recovery`는 비교 및 과거 문제 재현용이며 서비스할 대상은 `fixed/muse-version`입니다. 과거 번들의 키는 제거했습니다. 실제 사용자 프로필·식탁·기록 데이터는 포함하지 않았습니다.
+
+## 주요 동작
+
+- 기존 글자 설정을 새 2단계로 이전하고 1·2·3·4단계를 제공합니다. 3·4단계에서는 글자와 카드 배치가 함께 커집니다.
+- 식탁 전체 비우기는 확인창을 거치며 기록은 보존합니다. 되돌리기는 현재 세션에서 가능하며 새로 담은 식재료와 합칩니다. 새로고침 뒤에는 되돌리기 내역이 유지되지 않습니다.
+- 식재료는 첫 방문에 접혀 있고 사용자 선택을 기억합니다. 펼쳐졌을 때 접기 버튼만 표시합니다.
+- 찍기와 사진 선택은 별도 버튼과 별도 입력으로 연결됩니다.
+
+## 검증과 범위
+
+실제 번들 React DOM 통합 테스트 19/19 통과. Chrome에서 360·390·414px iframe 폭과 2·3·4단계에서 9개 조합의 열 수, 글자 넘침과 상단 겹침을 확인했습니다. 이는 실제 Android/iOS 기기 검증이 아닙니다. 휴대폰 카메라, 사진 선택, AI 인식 및 음성 입력의 하드웨어 검증은 미완료입니다. 사진 인식 확인 흐름은 모의 인식 응답으로 검증했습니다. 전체 KLoCa QA 인증 결과가 아닙니다.
+
+원본 klocastudio.com 서비스 및 Git main은 변경하지 않았습니다. 구현은 별도 검토 배포와 수정 브랜치에 보관했습니다.

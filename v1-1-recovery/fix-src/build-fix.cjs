@@ -51,7 +51,12 @@ rewrite('dn', (code, node) => {
   // controls must use different native inputs, with capture only on the camera.
   const modal = node.body.body.at(-1).argument.arguments[1];
   const conditional = modal.properties.find(p => p.key.name === 'children').value;
-  const full = original.slice(conditional.consequent.start, conditional.consequent.end);
+  let full = original.slice(conditional.consequent.start, conditional.consequent.end);
+  function findResults(node){ if(!node||typeof node!=='object')return null; if(node.type==='LogicalExpression'&&original.slice(node.start,node.start+21).startsWith('s&&s.length>0&&'))return node; for(const value of Object.values(node)){for(const child of Array.isArray(value)?value:[value]){let found=findResults(child);if(found)return found}}return null; }
+  const resultsNode=findResults(conditional.consequent);
+  if(!resultsNode)throw new Error('Missing recognition results');
+  const resultsStart=resultsNode.start-conditional.consequent.start,resultsEnd=resultsNode.end-conditional.consequent.start;
+  full=full.slice(0,resultsStart)+'s&&s.length>0&&(0,j.jsx)(KlocaScanResults,{items:s})'+full.slice(resultsEnd);
   code = code.slice(0, conditional.start-node.start) + full + code.slice(conditional.end-node.start);
   code = exact(code, 'i=(0,_.useRef)(null),', 'i=(0,_.useRef)(null),h=(0,_.useRef)(null),');
   code = exact(code, 'u(URL.createObjectURL(t)),o(!0);', 'u(URL.createObjectURL(t));if(!d){c(null);r(`사진 인식은 설정에서 Gemini 키를 등록한 뒤 사용할 수 있어요`,`warn`);return}o(!0);');
@@ -66,6 +71,7 @@ rewrite('dn', (code, node) => {
 });
 rewrite('Tr', code => {
  code=exact(code,'t({type:`setTab`,tab:`home`}),t({type:`setDash`,open:!0})','t({type:`closeAll`}),t({type:`setTab`,tab:`dashboard`}),t({type:`setDash`,open:!0})');
+ code=code.replaceAll('window.innerWidth','document.documentElement.clientWidth');
  code=exact(code,'},[a]);let f=', '},[a,e.profile.fontScale]);let f=');
  code=exact(code,'localStorage.getItem(br)!==`0`','localStorage.getItem(br)===`1`');
  code=exact(code,'className:`fnav-btn ${e.tab===n.key?`on`:``}`','className:`fnav-btn ${e.tab===n.key?`on`:``}`,"aria-current":e.tab===n.key?`page`:void 0');
@@ -74,7 +80,8 @@ rewrite('Tr', code => {
 });
 rewrite('Er', code => {
   code = exact(code, 'className:`frame`', 'className:`frame kloca-muse ${e.tab===`home`?`muse-home`:``}`');
-  code = exact(code, 'className:`logo-mark`,children:(0,j.jsx)(Kn,{size:26})', 'className:`logo-mark`,children:(0,j.jsxs)(j.Fragment,{children:[(0,j.jsx)(Kn,{size:26}),(0,j.jsx)(`span`,{className:`muse-handle`,"aria-hidden":!0})]})');
+  code = exact(code, 'className:`logo-mark`,children:(0,j.jsx)(Kn,{size:26})', 'className:`logo-mark`,children:(0,j.jsx)(KlocaLogoMark,{})');
+  code = exact(code, '(0,j.jsxs)(`button`,{className:`diet-badge`,onClick:()=>t({type:`push`,modal:{type:`settings`}}),children:[(0,j.jsxs)(`span`,{className:`dname`,children:[r.emoji,` `,r.nameKo]}),(0,j.jsx)(`span`,{className:`chev`,children:`▾`})]})', '(0,j.jsx)(KlocaDietButton,{})');
   code = exact(code, 'e.tab===`home`&&(0,j.jsx)(It,{}),e.tab===`table`&&(0,j.jsx)(Rt,{}),e.tab===`history`&&(0,j.jsx)(Wt,{})', '(0,j.jsx)(KlocaMainView,{})');
   return exact(code, '(0,j.jsx)(dr,{payResult:i})', '(0,j.jsx)(KlocaViewBoundary,{onRecover:()=>t({type:`closeAll`}),recoveryLabel:`닫기`,children:(0,j.jsx)(dr,{payResult:i})},`modal:${JSON.stringify(e.modalStack)}`)');
 });
@@ -87,7 +94,16 @@ edits.pop();
 const geEdit=edits.find(edit=>original.slice(edit.start,edit.start+12).startsWith('function Ge('));
 geEdit.text=exact(geEdit.text,'document.documentElement.style.setProperty(`--font-scale`,String(t.profile.fontScale))','document.documentElement.style.setProperty(`--font-scale`,String(t.profile.fontScale));document.documentElement.dataset.fontLevel=String(t.profile.fontScale>=1.75?4:t.profile.fontScale>=1.5?3:t.profile.fontScale>=1.25?2:1)');
 rewrite('ze',code=>exact(code,'case`clearUndo`:','case`clearTable`:return{...e,table:[],undo:null,clearUndo:e.table};case`restoreTable`:{let items=[...e.table];for(let old of e.clearUndo??[]){let found=items.find(x=>x.foodId===old.foodId&&x.meal===old.meal);if(found)items=items.map(x=>x.uid===found.uid?{...x,qty:Number((x.qty+old.qty).toFixed(2))}:x);else items.push(old)}return{...e,table:items,clearUndo:null}}case`clearUndo`:'));
-rewrite('Rt',code=>{
+rewrite('Rt',(code,node)=>{
+ function collect(n,out=[]){if(!n||typeof n!=='object')return out;if(n.type==='CallExpression'&&n.arguments?.[1]?.type==='ObjectExpression'){const p=n.arguments[1].properties.find(p=>p.key?.name==='className');if(p?.value?.type==='TemplateLiteral'&&p.value.quasis[0].value.raw==='titem')out.push(n)}for(const value of Object.values(n))for(const child of Array.isArray(value)?value:[value])collect(child,out);return out}
+ const card=collect(node)[0];if(!card)throw new Error('Missing table card');
+ const cardArgs=card.arguments[1].properties.find(p=>p.key.name==='children').value.elements;
+ const top=cardArgs[0].arguments[1].properties.find(p=>p.key.name==='children').value.elements;
+ const macros=cardArgs[1].arguments[1].properties.find(p=>p.key.name==='children').value.elements;
+ const slice=n=>original.slice(n.start,n.end);
+ const cardChildren='['+slice(cardArgs[0]).replace(','+slice(top[2]),'')+',(0,j.jsxs)(`div`,{className:`kloca-table-controls`,children:['+slice(macros[0])+','+slice(macros[5])+','+slice(top[2])+']}),(0,j.jsxs)(`div`,{className:`titem-macros kloca-table-nutrition`,children:['+slice(macros[1])+',(0,j.jsxs)(`div`,{className:`kloca-macro-group`,"aria-label":`탄수화물 단백질 지방`,children:['+macros.slice(2,5).map(slice).join(',')+']})]})]';
+ const arr=card.arguments[1].properties.find(p=>p.key.name==='children').value;
+ code=code.slice(0,arr.start-node.start)+cardChildren+code.slice(arr.end-node.start);
  code=exact(code,'`여기서 끼니별로 정리할 수 있어요.`]})]})','`여기서 끼니별로 정리할 수 있어요.`]}),(0,j.jsx)(KlocaEmptyAction,{tab:`home`,label:`식재료 고르기`})]})');
  return exact(code,'(0,j.jsx)(`button`,{className:`icon-btn`,onClick:async','(0,j.jsx)(KlocaClearTableButton,{}),(0,j.jsx)(`button`,{className:`icon-btn`,onClick:async');
 });
@@ -102,8 +118,13 @@ rewrite('an',(code,node)=>{
  function details(title,group){return '(0,j.jsxs)(`details`,{className:`kloca-settings-group`,children:[(0,j.jsx)(`summary`,{children:'+JSON.stringify(title)+'}),(0,j.jsxs)(`div`,{className:`kloca-settings-content`,children:['+group.join(',')+']})]})'}
  const revised=['(0,j.jsx)(KlocaFontOptions,{value:c,onChange:l})',...parts.slice(0,font),details('고급 프로필',parts.slice(advanced+1,ai)),details('AI 연결',parts.slice(ai+1,backup)),details('백업',parts.slice(backup+1,-2)),'(0,j.jsx)(`div`,{className:`kloca-settings-save`,children:'+parts.at(-1)+'})'];
  code=code.slice(0,arr.start-node.start)+'['+revised.join(',')+']'+code.slice(arr.end-node.start);
+ code=exact(code,'className:`d-emoji`,children:e.emoji','className:`d-emoji`,children:(0,j.jsx)(KlocaDietIcon,{dietId:e.id})');
  return exact(code,'profile:{fontScale:c,','profile:{fontScale:c,fontSchema:2,');
 });
+
+
+rewrite('Gt',()=>fs.readFileSync(path.join(__dirname,'sheet.js'),'utf8'));
+rewrite('Xt',code=>exact(code,'title:r.name,','title:r.name,fullTitle:!0,'));
 
 let code = original;
 for (const edit of edits.sort((a,b)=>b.start-a.start)) code = code.slice(0,edit.start)+edit.text+code.slice(edit.end);
@@ -113,13 +134,13 @@ code = code.replace(/geminiKey:"AIza[^"\n]+"/, 'geminiKey:""');
 code = code.replace(/localStorage\.getItem\(/g, 'KlocaStorageGet(').replace(/localStorage\.setItem\(/g, 'KlocaStorageSet(');
 const rootCall = ast.program.body.at(-1);
 const rootMarker = original.slice(rootCall.start);
-code = exact(code, rootMarker, fs.readFileSync(path.join(__dirname,'navigation-fix.js'),'utf8') + '\n' + rootMarker);
+code = exact(code, rootMarker, 'var KlocaDietIcons='+fs.readFileSync(path.join(__dirname,'diet-icons.json'),'utf8')+';\n'+fs.readFileSync(path.join(__dirname,'navigation-fix.js'),'utf8') + '\n' + rootMarker);
 babelParse(code, 'app.js', true);
 fs.mkdirSync(path.join(target,'assets'), { recursive: true });
 for (const name of ['index-CQXCXyQ1.css','reskin.css','logo-lens.webp']) fs.copyFileSync(path.join(source,'assets',name),path.join(target,'assets',name));
 fs.writeFileSync(path.join(target,'assets/index-navigation-fix-v1.js'),code);
 let html = fs.readFileSync(path.join(source,'index.html'),'utf8');
-html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1.2.2</title>\n    <meta name="application-version" content="1.2.2" />');
+html = html.replace(/<title>[^<]*<\/title>/, '<title>KLoCa Lens v1.2.3</title>\n    <meta name="application-version" content="1.2.3" />');
 html = html.replace('assets/index-CQlsQNY7.js', 'assets/index-navigation-fix-v1.js');
 html = html.replace(/<script>\s*\/\* hide the[\s\S]*?<\/script>/, '');
 html = html.replace(/\s*<script src="assets\/muse-(?:hero|key)\.js[^<]*<\/script>/g, '');
@@ -147,5 +168,9 @@ css += `\n/* Navigation fix v1: all these elements are rendered by React. */
 .scan-key-notice { margin-top:1rem; font-size:.85rem; }
 `;
 css += fs.readFileSync(path.join(__dirname,'ux-v122.css'),'utf8');
+css += fs.readFileSync(path.join(__dirname,'ux-v123.css'),'utf8');
 fs.writeFileSync(path.join(target,'assets/muse.css'),css);
 console.log(JSON.stringify({ target, sourceGitBlob:blob, files:fs.readdirSync(path.join(target,'assets')), browserVerification:'pending' }));
+
+const dietIcons=JSON.parse(fs.readFileSync(path.join(__dirname,'diet-icons.json'),'utf8'));
+for(const [id,icon] of Object.entries(dietIcons)){ const shapes=icon.shapes.map(([tag,props])=>'<'+tag+' '+Object.entries(props).map(([k,v])=>k.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())+'="'+String(v).replace(/currentColor/g,'#08766b')+'"').join(' ')+' />').join('');fs.writeFileSync(path.join(target,'assets/diet-'+id+'.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="#08766b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+shapes+'</svg>');}

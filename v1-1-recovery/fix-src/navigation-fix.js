@@ -243,3 +243,43 @@ function KlocaFontOptions({ value, onChange }) {
     j.jsx('p',{className:'kloca-setting-hint',children:'저장하면 화면 전체에 적용됩니다.'})
   ]});
 }
+
+function KlocaLogoMark() {
+ return j.jsxs('svg',{className:'kloca-logo-svg',viewBox:'0 0 40 40',fill:'none','aria-hidden':true,children:[
+  j.jsx('text',{x:0,y:22,fontSize:22,fill:'#171a17',children:'🥑'}),
+  j.jsx('circle',{cx:19,cy:18,r:10.5,fill:'#ffffff24',stroke:'#2a9d8f',strokeWidth:3.5}),
+  j.jsx('path',{d:'M27 26 34 33',stroke:'#2a9d8f',strokeWidth:5,strokeLinecap:'round'}),
+  j.jsx('path',{d:'M13 17a6 6 0 0 1 5-5',stroke:'#fff',strokeWidth:1.5,strokeLinecap:'round'})
+ ]});
+}
+function KlocaDietIcon({dietId}) {
+ var icon=KlocaDietIcons[dietId]||KlocaDietIcons.standard;
+ return j.jsx('svg',{className:'kloca-diet-svg',viewBox:'0 0 40 40',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true,children:icon.shapes.map(([tag,props],i)=>j.jsx(tag,props,i))});
+}
+function KlocaDietButton() {
+ var {state,dispatch}=M();var diet=b[state.profile.dietType];var icon=KlocaDietIcons[diet.id]||KlocaDietIcons.standard;
+ return j.jsxs('button',{type:'button',className:'diet-badge kloca-diet-button','aria-label':'식단 설정 · '+diet.nameKo,title: diet.nameKo+' · 식단 설정',onClick:()=>dispatch({type:'push',modal:{type:'settings'}}),children:[
+  j.jsx(KlocaDietIcon,{dietId:state.profile.dietType}),j.jsx('span',{className:'kloca-diet-label',children:icon.label})
+ ]});
+}
+function KlocaScanResults({items}) {
+ var {dispatch,addToTable,toast}=M();
+ var [rows,setRows]=_.useState(()=>items.filter(item=>!!O[item.foodId]).map((item,index)=>({...item,index,selected:item.confidence>=.75,qty:Math.max(.5,Number(item.qty)||1)})));
+ var selected=rows.filter(row=>row.selected&&Number(row.qty)>0);
+ var update=(index,props)=>setRows(prev=>prev.map(row=>row.index===index?{...row,...props}:row));
+ return j.jsxs('div',{className:'kloca-scan-results',children:[
+  j.jsx('h3',{className:'subhead',children:'인식 결과 확인'}),
+  j.jsx('p',{children:'식품과 수량을 확인하고 담을 재료를 선택하세요.'}),
+  rows.map(row=>{var food=O[row.foodId];return j.jsxs('div',{className:'confirm-row kloca-scan-row',children:[
+   j.jsx('input',{type:'checkbox',checked:row.selected,onChange:event=>update(row.index,{selected:event.target.checked}),'aria-label':food.name+' 선택'}),
+   j.jsx('div',{className:'result-emoji','aria-hidden':true,children:food.emoji}),
+   j.jsxs('div',{className:'kloca-scan-info',children:[j.jsx('b',{className:'result-name',children:food.name}),j.jsx('span',{className:'result-sub',children:row.confidence<.75?'확인 필요 · 선택하면 담겨요':'신뢰도 '+Math.round(row.confidence*100)+'%'}),
+    j.jsxs('label',{className:'kloca-scan-quantity',children:['수량 ',j.jsx('input',{type:'number',min:.5,step:.5,value:row.qty,'aria-label':food.name+' 수량',onChange:event=>update(row.index,{qty:event.target.value})}),' '+food.unit.label]})
+   ]})
+  ]},row.index)}),
+  j.jsx('button',{type:'button',className:'cta kloca-scan-confirm',disabled:selected.length===0,onClick:()=>{
+   for(var row of selected)addToTable(row.foodId,Number(row.qty));
+   dispatch({type:'closeAll'});toast(selected.length+'개 식재료를 식탁에 담았어요');
+  },children:'확인하고 식탁에 담기'+(selected.length?' · '+selected.length:'')})
+ ]});
+}

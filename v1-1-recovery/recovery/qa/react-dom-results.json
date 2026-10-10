@@ -142,8 +142,44 @@
         "groupedSettings": true,
         "emptyActions": true
       }
+    },
+    {
+      "name": "v123 compact header uses ten distinct icons and persists each diet",
+      "status": "PASS",
+      "detail": {
+        "distinctIcons": 10,
+        "dietSave": true,
+        "vectorLogo": true
+      }
+    },
+    {
+      "name": "v123 table order groups macros and preserves quantity and meal edits",
+      "status": "PASS",
+      "detail": {
+        "order": "fit,meal,quantity,delete",
+        "macroGroup": 3,
+        "editsPersist": true
+      }
+    },
+    {
+      "name": "v123 recipe title occupies a full row with its exact full name",
+      "status": "PASS",
+      "detail": {
+        "fullTitle": "아보카도 에그볼",
+        "separateHeaderRow": true
+      }
+    },
+    {
+      "name": "v123 scan confirmation adds selected foods once and closes every modal",
+      "status": "PASS",
+      "detail": {
+        "externalVision": "mocked,no paid call",
+        "lowConfidenceRequiresSelection": true,
+        "confirmedItems": 2,
+        "allModalsClosed": true
+      }
     }
   ],
-  "passed": 15,
-  "total": 15
+  "passed": 19,
+  "total": 19
 }

@@ -1,0 +1,75 @@
+/* v1.2.3 — combined feedback, structural changes before spacing. */
+.header { grid-template-columns:minmax(0,1fr) 48px 48px 48px; gap:6px; padding:14px 0 18px; }
+.header-actions { display:contents; }
+.header .logo { gap:4px; padding:0; min-width:0; }
+.header .logo-mark { width:36px !important; height:36px !important; }
+.header .logo-mark::before,.header .logo-mark::after { content:none !important; display:none !important; }
+.header .logo-mark .muse-handle { display:none !important; }
+.header .logo-mark .kloca-logo-svg { display:block !important; width:36px; height:36px; overflow:visible; }
+.header .logo-name { gap:2px; }
+.header .logo-name .brand { font-size:17px; }
+.header .logo-name .brand-lens { font-size:18px; }
+.header .icon-btn,.header .acct-btn { width:44px; height:44px; min-width:44px; min-height:44px; justify-self:center; }
+.header .diet-badge.kloca-diet-button { grid-column:auto; width:48px; min-width:48px; min-height:56px; margin:0; padding:4px 2px; display:flex; flex-direction:column; justify-content:center; gap:0; border:2px solid var(--ink); border-radius:16px; background:#fff4a4; color:#08766b; transform:none; box-shadow:2px 2px 0 var(--ink); font-size:inherit; white-space:normal; }
+.kloca-diet-svg { display:block; width:30px; height:30px; flex:none; color:#08766b; }
+.kloca-diet-label { font-size:.6rem; line-height:1.1; font-weight:750; color:var(--ink); overflow-wrap:anywhere; text-align:center; }
+.d-emoji .kloca-diet-svg { width:38px; height:38px; }
+.fnav,.fnav.collapsed,.fnav.dragging,.fnav:hover,.fnav:focus-within { background:rgba(231,250,242,.94); border:1px solid #2a9d8f70; opacity:1; box-shadow:3px 3px 0 #08766b30; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+.fnav-btn { color:#174e45; }
+.fnav-btn.on { color:var(--ink); }
+.fnav-grip { background:#08766b; }
+.fnav-btn .fnav-lbl { word-break:normal; overflow-wrap:anywhere; max-width:100%; }
+.kloca-settings-save { background:transparent; box-shadow:none; }
+.muse-market-content { container-type:inline-size; container-name:ingredients; }
+.food-grid { grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:8px !important; }
+.food-grid .food-card { padding:10px 7px !important; }
+.food-card .f-name,.food-card .f-sub { word-break:normal; overflow-wrap:anywhere; }
+.fit-dot { top:9px; right:9px; }
+:root[data-font-level="3"] .food-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+:root[data-font-level="4"] .food-grid { grid-template-columns:1fr !important; }
+@container ingredients (max-width:224px) {
+ :root[data-font-level="1"] .food-grid,:root[data-font-level="2"] .food-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
+@container ingredients (max-width:179px) { .food-grid { grid-template-columns:1fr !important; } }
+.kloca-sheet-heading { min-width:0; }
+.sheet-title { white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; line-height:1.3; }
+.kloca-full-title .sheet-head { padding-bottom:4px; }
+.kloca-full-title .sheet-title-row { flex:1; }
+.kloca-sheet-full-heading { padding:8px 20px 14px; flex:none; }
+.kloca-full-title .sheet-title { font-size:1.15rem; }
+.kloca-full-title .sheet-sub { margin-top:6px; }
+.recipe-name { white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; }
+.recipe-card { flex-wrap:wrap; }
+.recipe-main { flex:1 1 180px; }
+.recipe-meta { flex-wrap:wrap; }
+.recipe-label { white-space:normal; }
+:root[data-font-level="3"] .kloca-full-title .facts,:root[data-font-level="4"] .kloca-full-title .facts { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+.titem-top { display:flex; flex-wrap:nowrap; margin-bottom:14px; }
+.titem-top .result-emoji { width:44px; height:44px; font-size:1.3rem; }
+.kloca-table-controls { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
+.kloca-table-controls .status-pill { font-size:.75rem; padding:8px 10px; flex:none; }
+.kloca-table-controls .meal-select { min-width:105px; max-width:100%; padding:8px 10px; font-family:Courier New,monospace; background:#eef8f4; }
+.kloca-table-controls .titem-ctrl { margin-left:0; gap:8px; flex-wrap:wrap; }
+.kloca-table-controls .mini-step { padding:2px; gap:0; }
+.kloca-table-controls .mini-step button { width:44px; height:44px; }
+.kloca-table-controls .mini-step b { min-width:32px; font-size:.85rem; }
+.kloca-table-controls .del-btn { width:44px; height:44px; }
+.titem-macros.kloca-table-nutrition { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin-top:14px; padding-top:12px; border-top:1px solid var(--hairline-strong); }
+.kloca-table-nutrition .chip { border:none; box-shadow:none; border-radius:0; background:none; padding:0; display:inline-flex; gap:4px; font-size:.8rem; }
+.kloca-table-nutrition>.chip { font-weight:750; color:#08766b; }
+.kloca-macro-group { display:flex; align-items:center; flex-wrap:wrap; gap:6px 14px; padding:8px 10px; border-radius:12px; background:#eef8f4; }
+.kloca-scan-row { align-items:flex-start; flex-wrap:wrap; }
+.kloca-scan-row>input[type="checkbox"] { width:24px; min-height:24px; margin:10px; accent-color:#08766b; flex:none; }
+.kloca-scan-info { display:flex; flex-direction:column; min-width:0; flex:1 1 140px; gap:4px; }
+.kloca-scan-quantity { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:.75rem; }
+.kloca-scan-quantity input { width:84px; padding:6px; border:1px solid var(--hairline-strong); border-radius:8px; background:#fff; font:inherit; }
+.kloca-scan-confirm { margin-top:16px; }
+@media (max-width:800px) {
+ .frame:has(.fnav:not(.collapsed)) .header { margin-right:-74px; grid-template-columns:minmax(0,1fr) 48px 48px 48px; gap:6px; }
+ .frame:has(.fnav:not(.collapsed)) .header .logo-mark { width:36px !important; }
+}
+@media (max-width:340px) {
+ .header .logo-name .brand { font-size:14px; }
+ .header .logo-name .brand-lens { font-size:15px; }
+ .header,.frame:has(.fnav:not(.collapsed)) .header { grid-template-columns:minmax(0,1fr) 44px 44px 48px; gap:3px; }
+}

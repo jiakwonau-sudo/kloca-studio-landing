@@ -5,7 +5,7 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 const base = path.resolve(__dirname, '../..');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const results = [];
-async function page(directory, helper = false, persisted = {}) {
+async function page(directory, helper = false, persisted = {}, mockScan = null) {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push({name:error.name, message:error.message}));
@@ -17,6 +17,8 @@ async function page(directory, helper = false, persisted = {}) {
   w.addEventListener('error', e => {errors.push({name:e.error?.name || 'Error',message:e.message});e.preventDefault();});
   w.HTMLElement.prototype.scrollIntoView = function() {};
   w.scrollTo = function() {};
+  w.URL.createObjectURL = () => 'blob:https://lens.test/mock-photo';
+  if(mockScan)w.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify(mockScan)}]}}]})});
   w.matchMedia = query => ({matches:false,media:query,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}});
   w.SpeechRecognition = class {abort() {} };
   for (const [key,value] of Object.entries(persisted)) w.localStorage.setItem(key,value);
@@ -172,6 +174,50 @@ const fixed = path.join(base,'fixed/muse-version');
       await click(p,'식탁');button(p,'식재료 고르기');await click(p,'기록');await click(p,'식탁 보기');assert.ok(p.doc.querySelector('.section-title').textContent.includes('식탁'));
       p.doc.querySelector('.diet-badge').click();await sleep(35);assert.equal(p.doc.querySelectorAll('.kloca-settings-group').length,3);assert.equal(p.doc.querySelectorAll('.kloca-settings-group[open]').length,0);assert.ok(p.doc.querySelector('.kloca-settings-save'));await click(p,'닫기');assert.deepEqual(p.errors,[]);
       return {selectedDashboard:true,groupedSettings:true,emptyActions:true};
+    }finally{p.dom.window.close();}
+  });
+  await check('v123 compact header uses ten distinct icons and persists each diet',async()=>{
+    const p=await page(fixed);
+    try{
+      assert.ok(p.doc.querySelector('.logo-mark .kloca-logo-svg'));assert.equal(p.doc.querySelectorAll('.muse-handle').length,0);
+      const shapes=new Set();
+      for(const [id,name] of Object.entries({standard:'표준 균형식',keto:'케토제닉',lchf:'저탄고지',lowcarb:'저탄수화물',highprotein:'고단백',pescatarian:'페스코테리언',diabetic:'혈당 관리식',mediterranean:'지중해식',vegan:'비건',paleo:'팔레오'})){
+        p.doc.querySelector('.diet-badge').click();await sleep(35);
+        const opt=Array.from(p.doc.querySelectorAll('.diet-opt')).find(x=>x.textContent.includes(name));assert.ok(opt);opt.click();await sleep(35);await click(p,'저장하기');
+        assert.equal(JSON.parse(p.w.localStorage.getItem('nutrilens.profile')).dietType,id);shapes.add(p.doc.querySelector('.kloca-diet-button svg').innerHTML);
+      }
+      assert.equal(shapes.size,10);assert.deepEqual(p.errors,[]);return {distinctIcons:10,dietSave:true,vectorLogo:true};
+    }finally{p.dom.window.close();}
+  });
+  await check('v123 table order groups macros and preserves quantity and meal edits',async()=>{
+    const p=await page(fixed,false,{'nutrilens.table':JSON.stringify([{uid:'qa-egg',foodId:'egg',qty:2,meal:1}])});
+    try{
+      await click(p,'식탁');const controls=p.doc.querySelector('.kloca-table-controls');
+      assert.ok(controls.children[0].matches('.status-pill'));assert.ok(controls.children[1].matches('.meal-select'));assert.ok(controls.children[2].matches('.titem-ctrl'));
+      assert.equal(p.doc.querySelectorAll('.kloca-macro-group .chip').length,3);
+      await click(p,'수량 늘리기');assert.equal(JSON.parse(p.w.localStorage.getItem('nutrilens.table'))[0].qty,3);
+      const select=p.doc.querySelector('.meal-select');select.value='2';select.dispatchEvent(new p.w.Event('change',{bubbles:true}));await sleep(35);assert.equal(JSON.parse(p.w.localStorage.getItem('nutrilens.table'))[0].meal,2);
+      assert.deepEqual(p.errors,[]);return {order:'fit,meal,quantity,delete',macroGroup:3,editsPersist:true};
+    }finally{p.dom.window.close();}
+  });
+  await check('v123 recipe title occupies a full row with its exact full name',async()=>{
+    const p=await page(fixed);
+    try{
+      await click(p,'식품 목록 펼치기');p.doc.querySelector('.food-card').click();await sleep(35);
+      const recipe=p.doc.querySelector('.recipe-main');assert.ok(recipe);const name=recipe.querySelector('.recipe-name').textContent;
+      recipe.click();await sleep(35);assert.equal(p.doc.querySelector('.kloca-sheet-full-heading .sheet-title').textContent,name);
+      assert.deepEqual(p.errors,[]);return {fullTitle:name,separateHeaderRow:true};
+    }finally{p.dom.window.close();}
+  });
+  await check('v123 scan confirmation adds selected foods once and closes every modal',async()=>{
+    const p=await page(fixed,false,{'nutrilens.profile':JSON.stringify({geminiKey:'TEST_ONLY_NOT_A_KEY'})},[{foodId:'egg',qty:2,confidence:.9},{foodId:'avocado',qty:1,confidence:.6}]);
+    try{
+      await click(p,'사진으로 검색');const input=p.doc.querySelector('input[data-photo-source="gallery"]');
+      Object.defineProperty(input,'files',{configurable:true,value:[new p.w.File(['test-only-photo'],'test.png',{type:'image/png'})]});input.dispatchEvent(new p.w.Event('change',{bubbles:true}));await sleep(150);
+      const low=p.doc.querySelector('[aria-label="아보카도 선택"]');assert.ok(low);assert.equal(low.checked,false);low.click();await sleep(35);
+      p.doc.querySelector('.kloca-scan-confirm').click();await sleep(35);assert.equal(p.doc.querySelectorAll('.sheet').length,0);
+      const table=JSON.parse(p.w.localStorage.getItem('nutrilens.table'));assert.equal(table.length,2);assert.equal(table.find(x=>x.foodId==='egg').qty,2);assert.equal(table.find(x=>x.foodId==='avocado').qty,1);
+      assert.deepEqual(p.errors,[]);return {externalVision:'mocked,no paid call',lowConfidenceRequiresSelection:true,confirmedItems:2,allModalsClosed:true};
     }finally{p.dom.window.close();}
   });
   const output={environment:'JSDOM 30.1.2 + actual bundled React and React DOM; no mocked hooks, renderer or error boundaries',browserLayout:'unverified',results,passed:results.filter(r=>r.status==='PASS').length,total:results.length};
