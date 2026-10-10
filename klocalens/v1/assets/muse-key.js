@@ -2,7 +2,7 @@
    Runs before the main bundle. Overwrites any stale key. */
 (function () {
   try {
-    var KEY = "AIzaSyAzb0uT6tqO5jEOKH2g9Z1H5c5s0lZx4sV";
+    var KEY = "AQ.Ab8RN6LBR7PfcpIcpfDWfGfvwCoHeFOZVng1wJrX8MvPBINHqw";
     function forceKey() {
       try {
         var raw = localStorage.getItem("nutrilens.profile");
