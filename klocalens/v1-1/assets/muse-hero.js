@@ -44,26 +44,13 @@
   }
 
   function takePhoto() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.setAttribute('capture', 'environment');
-    input.onchange = function (e) {
-      var file = e.target.files && e.target.files[0];
-      if (file) forwardFileToScan(file, true);
-    };
-    input.click();
+    // Just open the scan modal - the app's own buttons handle file selection
+    openScanModal();
   }
 
   function uploadPhoto() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = function (e) {
-      var file = e.target.files && e.target.files[0];
-      if (file) forwardFileToScan(file, false);
-    };
-    input.click();
+    // Just open the scan modal - the app's own buttons handle file selection
+    openScanModal();
   }
 
 
