@@ -44,26 +44,13 @@
   }
 
   function takePhoto() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.setAttribute('capture', 'environment');
-    input.onchange = function (e) {
-      var file = e.target.files && e.target.files[0];
-      if (file) forwardFileToScan(file, true);
-    };
-    input.click();
+    // Just open the scan modal - the app's own buttons handle file selection
+    openScanModal();
   }
 
   function uploadPhoto() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = function (e) {
-      var file = e.target.files && e.target.files[0];
-      if (file) forwardFileToScan(file, false);
-    };
-    input.click();
+    // Just open the scan modal - the app's own buttons handle file selection
+    openScanModal();
   }
 
 
@@ -91,9 +78,10 @@
         var text = e.results[0][0].transcript;
         var input = searchWrap.querySelector('input');
         if (input) {
-          input.value = text;
+          // Use native setter so React picks up the change
+          var setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+          setter.call(input, text);
           input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
           // Try to trigger search
           var form = searchWrap.querySelector('form');
           if (form) {
@@ -135,25 +123,11 @@
 
 
   function updateVisibilityForTab() {
-    var hero = document.querySelector('.muse-scan-hero');
-    var searchWrap = document.querySelector('.search-wrap');
-    // Check if dashboard is active (look for dashboard-specific content)
-    var isDashboard = document.querySelector('[class*="dash-"]') && 
-                      !document.querySelector('.muse-scan-hero');
-    // Actually, simpler: check URL hash or active nav
-    var navBtns = document.querySelectorAll('nav button, .nav button, [role="tab"]');
-    var hideHero = false;
-    navBtns.forEach(function (btn) {
-      var text = (btn.textContent || '').trim();
-      var isActive = btn.classList.contains('active') || btn.getAttribute('aria-selected') === 'true';
-      // Hide on all tabs except Home (홈)
-      if (isActive && text.indexOf('홈') < 0 && text.indexOf('Home') < 0) {
-        hideHero = true;
-      }
-    });
-    if (hero) hero.style.display = hideHero ? 'none' : '';
-    // Don't hide search-wrap as it's part of app, only our hero
+    // Disabled: was breaking React navigation (white screen)
+    // Hero only injects on home anyway via search-wrap check
   }
+
+
 
   function initCollapse(hero) {
     var btn = hero.querySelector('#museCollapse');
@@ -273,6 +247,8 @@
   }
 
   function inject() {
+    // Always ensure photo button on search (survives React re-renders)
+    addPhotoUploadToSearch();
     // Logo: CSS avocado + transparent lens, JS adds handle
     addLogoHandle();
 
@@ -301,36 +277,6 @@
         if (backdrop) backdrop.click();
       });
       head.appendChild(btn);
-    });
-
-    // Add gallery upload button to scan modal (user request: need album option)
-    document.querySelectorAll('.sheet').forEach(function (sheet) {
-      if (sheet.querySelector('.muse-gallery-btn')) return;
-      var cta = sheet.querySelector('.cta');
-      if (!cta || !sheet.querySelector('input[type="file"]')) return;
-      var galleryBtn = document.createElement('button');
-      galleryBtn.className = 'cta muse-gallery-btn';
-      galleryBtn.style.marginTop = '0.5rem';
-      galleryBtn.textContent = '🖼️ 앨범에서 선택';
-      galleryBtn.addEventListener('click', function () {
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = function (e) {
-          var file = e.target.files && e.target.files[0];
-          if (!file) return;
-          var appInput = sheet.querySelector('input[type="file"]');
-          if (appInput) {
-            var dt = new DataTransfer();
-            dt.items.add(file);
-            appInput.files = dt.files;
-            var evt = new Event('change', { bubbles: true });
-            appInput.dispatchEvent(evt);
-          }
-        };
-        input.click();
-      });
-      cta.parentNode.insertBefore(galleryBtn, cta.nextSibling);
     });
 
     // Only on home: search-wrap exists and hero not yet injected
@@ -383,7 +329,7 @@
   } else {
     inject();
   }
-  setInterval(function () { removeTodayNutrition(); updateVisibilityForTab(); }, 1000);
+  // interval removed: was breaking app
   new MutationObserver(schedule).observe(document.documentElement, {
     childList: true,
     subtree: true
