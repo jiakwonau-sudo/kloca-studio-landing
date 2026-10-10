@@ -99,6 +99,7 @@ css += `\n/* Navigation fix v1: all these elements are rendered by React. */
 .muse-section-toggle { display:flex; align-items:center; justify-content:space-between; gap:.5rem; width:100%; margin:.8rem 0; padding:.85rem 1rem; background:#fff4a4; border:2px solid var(--ink); border-radius:1rem; color:var(--ink); font:inherit; cursor:pointer; box-shadow:2px 3px 0 var(--ink); }
 .muse-section-label { font-weight:700; }
 .muse-section-hint { font-size:.8rem; opacity:.75; }
+.muse-section-toggle[aria-expanded="true"] { width:2.75rem; height:2.75rem; margin:.4rem 0 .25rem auto; padding:0; justify-content:center; background:#b9f1d1; box-shadow:none; }
 .muse-market-content[hidden] { display:none !important; }
 .muse-market-content > .section > .section-head { display:none; }
 .muse-dashboard .section-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }

@@ -121,6 +121,7 @@ const fixed = path.join(base,'fixed/muse-version');
       assert.equal(p.doc.querySelector('.muse-market-content').hidden,true);
       assert.ok(button(p,'식품 목록 펼치기').textContent.includes('눌러서 펼치기'));
       await click(p,'식품 목록 펼치기');assert.equal(p.doc.querySelector('.muse-market-content').hidden,false);
+      assert.equal(button(p,'식품 목록 접기').textContent.trim(),'▴');
       assert.equal(p.w.localStorage.getItem('muse-food-collapsed'),'0');
       await click(p,'기록');await click(p,'홈');assert.equal(p.doc.querySelector('.muse-market-content').hidden,false);
       await click(p,'식품 목록 접기');assert.equal(p.doc.querySelector('.muse-market-content').hidden,true);

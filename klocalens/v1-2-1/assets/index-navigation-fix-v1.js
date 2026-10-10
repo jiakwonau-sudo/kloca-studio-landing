@@ -171,7 +171,7 @@ function KlocaMarketSection({ children }) {
       onClick: () => setCollapsed(previous => {
         KlocaStorageSet('muse-food-collapsed', previous ? '0' : '1'); return !previous;
       }), children: [
-        j.jsx('span', { className: 'muse-section-label', children: collapsed ? '식재료 보기 ▾' : '식재료 접기 ▴' }),
+        j.jsx('span', { className: 'muse-section-label', 'aria-hidden': !collapsed, children: collapsed ? '식재료 보기 ▾' : '▴' }),
         collapsed && j.jsx('span', { className: 'muse-section-hint', children: '눌러서 펼치기' })
       ] }),
     j.jsx('div', { className: 'muse-market-content', hidden: collapsed, children })
