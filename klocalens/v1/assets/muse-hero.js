@@ -298,28 +298,11 @@
     fixSearchEnter();
   }
 
-  // SPA navigation: re-check on DOM changes (throttled)
-  var scheduled = false;
-  function schedule() {
-    if (scheduled) return;
-    scheduled = true;
-    setTimeout(function () { 
-      scheduled = false; 
-      inject();
-      // Always remove dashboard from home, independent of hero
-      removeTodayNutrition();
-      updateVisibilityForTab();
-    }, 300);
-  }
-
+  // DISABLED: MutationObserver was breaking React navigation (white screen crashes).
+  // Run inject once on load only. No continuous DOM monitoring.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', inject);
   } else {
     inject();
   }
-  // interval removed: was breaking app
-  new MutationObserver(schedule).observe(document.documentElement, {
-    childList: true,
-    subtree: true
-  });
 })();
