@@ -140,32 +140,6 @@
   }
 
 
-  function addScanConfirmButton() {
-    // Find scan modal by title
-    var modals = document.querySelectorAll('[role="dialog"]');
-    modals.forEach(function (modal) {
-      var title = modal.querySelector('.sheet-title');
-      if (!title || title.textContent.indexOf('사진') < 0) return;
-      if (modal.querySelector('.muse-confirm-btn')) return;
-      
-      // Check if photo is loaded (img preview exists)
-      var img = modal.querySelector('img[alt="스캔 미리보기"]');
-      if (!img) return;
-      
-      var btn = document.createElement('button');
-      btn.className = 'cta muse-confirm-btn';
-      btn.textContent = '확인';
-      btn.style.cssText = 'margin-top:0.8rem;width:100%;';
-      btn.addEventListener('click', function () {
-        // Close the modal
-        var closeBtn = modal.querySelector('button[aria-label="닫기"]');
-        if (closeBtn) closeBtn.click();
-      });
-      
-      var body = modal.querySelector('.sheet-body');
-      if (body) body.appendChild(btn);
-    });
-  }
 
   function initCollapse(hero) {
     var btn = hero.querySelector('#museCollapse');
@@ -386,7 +360,6 @@
     setTimeout(function () { 
       scheduled = false; 
       inject();
-      addScanConfirmButton();
       // Always remove dashboard from home, independent of hero
       removeTodayNutrition();
       updateVisibilityForTab();
