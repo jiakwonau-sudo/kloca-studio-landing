@@ -151,21 +151,9 @@
 
 
   function removeTodayNutrition() {
-    // Only remove dashboard from HOME (where our hero is visible)
-    // Dashboard tab needs its dashboard, so don't touch it there
-    var hero = document.querySelector('.muse-scan-hero');
-    if (!hero || hero.style.display === 'none') return;
-    // Completely remove from DOM, not just hide
-    var selectors = ['.dash-head', '.dash-mini', '.dash-collapsed', '.dash-expand', '.dash-toggle-icon',
-                     '.rings-core', '.rings-row', '.rings-foot'];
-    selectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        // Find the parent shell/container and remove it
-        var container = el.closest('.shell') || el.closest('.section') || el;
-        // But don't remove if it's on dashboard tab (no hero means we're not on home)
-        container.remove();
-      });
-    });
+    // DISABLED: removing React-managed DOM causes white-screen crashes
+    // Dashboard hide is handled by CSS only (display:none, no DOM removal)
+    return;
   }
 
 
