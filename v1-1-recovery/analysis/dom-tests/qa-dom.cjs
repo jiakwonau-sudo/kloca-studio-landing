@@ -91,6 +91,25 @@ const fixed = path.join(base,'fixed/muse-version');
       assert.deepEqual(p.errors,[]);return {modalOpens:3,modalCloses:3,errors:0};
     } finally {p.dom.window.close();}
   });
+  for (const hasKey of [false,true]) await check('camera and gallery use separate inputs '+(hasKey?'with key':'without key'),async()=>{
+    const p=await page(fixed,false,hasKey?{'nutrilens.profile':JSON.stringify({geminiKey:'TEST_ONLY_NOT_A_KEY'})}:{});
+    try {
+      await click(p,'사진으로 검색');
+      const camera=p.doc.querySelector('input[data-photo-source="camera"]');
+      const gallery=p.doc.querySelector('input[data-photo-source="gallery"]');
+      assert.ok(camera);assert.ok(gallery);assert.notEqual(camera,gallery);
+      assert.equal(camera.getAttribute('capture'),'environment');assert.equal(gallery.hasAttribute('capture'),false);
+      assert.equal(camera.accept,'image/*');assert.equal(gallery.accept,'image/*');
+      const opened=[];
+      camera.addEventListener('click',e=>{opened.push('camera');e.preventDefault();});
+      gallery.addEventListener('click',e=>{opened.push('gallery');e.preventDefault();});
+      await click(p,'사진 찍기');assert.deepEqual(opened,['camera']);
+      await click(p,'사진 선택');assert.deepEqual(opened,['camera','gallery']);
+      await click(p,'닫기');await click(p,'기록');await click(p,'대시보드 바로가기');
+      assert.deepEqual(p.errors,[]);
+      return {cameraInput:'capture=environment',galleryInput:'no capture',separateClickTargets:true,phoneHardware:'unverified'};
+    } finally {p.dom.window.close();}
+  });
   await check('fixed collapsed hero survives leaving and returning home',async()=>{
     const p=await page(fixed);
     try {await click(p,'접기');assert.ok(p.doc.querySelector('.muse-scan-hero.collapsed'));await click(p,'기록');await click(p,'홈');assert.ok(p.doc.querySelector('.muse-scan-hero.collapsed'));await click(p,'펼치기');assert.ok(!p.doc.querySelector('.muse-scan-hero.collapsed'));assert.deepEqual(p.errors,[]);return {statePreserved:true};}

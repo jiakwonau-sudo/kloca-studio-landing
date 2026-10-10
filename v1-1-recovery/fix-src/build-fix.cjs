@@ -40,6 +40,23 @@ rewrite('Pt', code => {
   code = exact(code, 'className:`search-shell`,children:[', 'className:`search-shell`,children:[(0,j.jsx)(KlocaPhotoButton,{}),(0,j.jsx)(KlocaVoiceButton,{onText:e=>{a(e),s(null)}}),');
   return exact(code, 'enterKeyHint:`search`', 'enterKeyHint:`search`,onKeyDown:e=>{if(e.key===`Enter`){e.preventDefault();e.currentTarget.blur()}}');
 });
+rewrite('dn', (code, node) => {
+  // Keep the existing preview, recognition and confirmation flow. The two
+  // controls must use different native inputs, with capture only on the camera.
+  const modal = node.body.body.at(-1).argument.arguments[1];
+  const conditional = modal.properties.find(p => p.key.name === 'children').value;
+  const full = original.slice(conditional.consequent.start, conditional.consequent.end);
+  code = code.slice(0, conditional.start-node.start) + full + code.slice(conditional.end-node.start);
+  code = exact(code, 'i=(0,_.useRef)(null),', 'i=(0,_.useRef)(null),h=(0,_.useRef)(null),');
+  code = exact(code, 'u(URL.createObjectURL(t)),o(!0);', 'u(URL.createObjectURL(t));if(!d){c(null);r(`사진 인식은 설정에서 Gemini 키를 등록한 뒤 사용할 수 있어요`,`warn`);return}o(!0);');
+  code = exact(code,
+    '(0,j.jsx)(`input`,{ref:i,type:`file`,accept:`image/*`,capture:`environment`,hidden:!0,onChange:e=>{let t=e.target.files?.[0];t&&f(t)}})',
+    '(0,j.jsx)(`input`,{ref:i,type:`file`,accept:`image/*`,capture:`environment`,hidden:!0,"data-photo-source":`camera`,onChange:e=>{let t=e.target.files?.[0];e.target.value=``;t&&f(t)}}),(0,j.jsx)(`input`,{ref:h,type:`file`,accept:`image/*`,hidden:!0,"data-photo-source":`gallery`,onChange:e=>{let t=e.target.files?.[0];e.target.value=``;t&&f(t)}})');
+  code = exact(code,
+    '(0,j.jsxs)(`button`,{className:`cta`,onClick:()=>i.current?.click(),disabled:a,children:[a?`Gemini 분석 중…`:l?`다른 사진 선택`:`사진 찍기 / 선택`,(0,j.jsx)(`span`,{className:`cta-orb`,children:(0,j.jsx)(qe,{size:16})})]})',
+    '(0,j.jsxs)(`div`,{className:`scan-source-actions`,children:[(0,j.jsx)(`button`,{type:`button`,className:`cta`,onClick:()=>i.current?.click(),disabled:a,children:`사진 찍기`}),(0,j.jsx)(`button`,{type:`button`,className:`cta ghost`,onClick:()=>h.current?.click(),disabled:a,children:`사진 선택`})]}),a&&(0,j.jsx)(`p`,{role:`status`,children:`Gemini 분석 중…`}),!d&&(0,j.jsxs)(`div`,{className:`scan-key-notice`,children:[(0,j.jsx)(`p`,{children:`사진 인식에는 Gemini 키가 필요해요. 선택한 사진은 인식 전에 미리 볼 수 있어요.`}),(0,j.jsx)(`button`,{type:`button`,className:`cta ghost`,onClick:()=>t({type:`push`,modal:{type:`settings`}}),children:`설정에서 키 등록하기`})]})');
+  return code;
+});
 rewrite('Tr', code => exact(code, 't({type:`setTab`,tab:`home`}),t({type:`setDash`,open:!0})', 't({type:`closeAll`}),t({type:`setTab`,tab:`dashboard`}),t({type:`setDash`,open:!0})'));
 rewrite('Er', code => {
   code = exact(code, 'className:`frame`', 'className:`frame kloca-muse ${e.tab===`home`?`muse-home`:``}`');
@@ -79,6 +96,9 @@ css += `\n/* Navigation fix v1: all these elements are rendered by React. */
 .kloca-recovery { border:2px solid var(--forest); padding:1rem; border-radius:1rem; }
 .kloca-recovery .cta { margin-top:.6rem; }
 .kloca-data-notice { padding:.8rem; background:var(--surface-warm); border-left:4px solid var(--forest); border-radius:.6rem; font-size:.9rem; }
+.scan-source-actions { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+.scan-source-actions .cta { width:100%; justify-content:center; }
+.scan-key-notice { margin-top:1rem; font-size:.85rem; }
 `;
 fs.writeFileSync(path.join(target,'assets/muse.css'),css);
 console.log(JSON.stringify({ target, sourceGitBlob:blob, files:fs.readdirSync(path.join(target,'assets')), browserVerification:'pending' }));

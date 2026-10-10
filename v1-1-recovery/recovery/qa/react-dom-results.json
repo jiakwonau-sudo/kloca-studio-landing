@@ -72,6 +72,26 @@
       }
     },
     {
+      "name": "camera and gallery use separate inputs without key",
+      "status": "PASS",
+      "detail": {
+        "cameraInput": "capture=environment",
+        "galleryInput": "no capture",
+        "separateClickTargets": true,
+        "phoneHardware": "unverified"
+      }
+    },
+    {
+      "name": "camera and gallery use separate inputs with key",
+      "status": "PASS",
+      "detail": {
+        "cameraInput": "capture=environment",
+        "galleryInput": "no capture",
+        "separateClickTargets": true,
+        "phoneHardware": "unverified"
+      }
+    },
+    {
       "name": "fixed collapsed hero survives leaving and returning home",
       "status": "PASS",
       "detail": {
@@ -87,6 +107,6 @@
       }
     }
   ],
-  "passed": 9,
-  "total": 9
+  "passed": 11,
+  "total": 11
 }

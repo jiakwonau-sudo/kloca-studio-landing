@@ -222,3 +222,6 @@
 .kloca-recovery { border:2px solid var(--forest); padding:1rem; border-radius:1rem; }
 .kloca-recovery .cta { margin-top:.6rem; }
 .kloca-data-notice { padding:.8rem; background:var(--surface-warm); border-left:4px solid var(--forest); border-radius:.6rem; font-size:.9rem; }
+.scan-source-actions { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
+.scan-source-actions .cta { width:100%; justify-content:center; }
+.scan-key-notice { margin-top:1rem; font-size:.85rem; }
