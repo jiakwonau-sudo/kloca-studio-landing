@@ -1,0 +1,17 @@
+# KLoCa Studio
+
+KLoCa Studio (https://klocastudio.com/) is an AI studio that builds and verifies AI products.
+
+## Products and Services
+
+### KLoCa Lens
+An AI tool that helps shoppers understand food before they buy. Take a photo of food to identify it, interpret labels and nutrition facts, and get explanations tailored to dietary contexts (keto, blood sugar, allergies) in Korean and English. Works without internet. Currently in beta.
+
+### KLoCa QA
+Independent pre-acquisition verification for outsourced apps. Verifies code ownership, accounts, data, and domains with evidence before you pay. Verdict codes: BLOCK (unresolved P0), FIX (unresolved critical P1), PASS (only P2/P3). Independence levels: I0 (self-review), I1 (role separation), I2 (third-party). Pilot: KRW 390,000 (regular 790,000), read-only access, includes 1 verification report.
+
+## Founder
+Jiyeon Kwon, KLoCa Studio. Expertise: compliance, risk management, governance. Background in overseas contracts and compliance programs, enterprise B2B systems (Dynamics 365), and instructional design.
+
+## Key pages
+- https://klocastudio.com/ — Studio landing (Lens + QA + founder)

@@ -3,8 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KLoCa Studio — AI 제품을 만들고, 검증합니다</title>
-<meta name="description" content="KLoCa Studio는 AI 스튜디오입니다. KLoCa Lens — 사기 전에 음식을 이해하는 AI 도구. KLoCa QA — AI 제품의 독립 인수 검증.">
+<title>KLoCa Studio | 외주 앱 인수 검증(KLoCa QA) · 키토 식품 확인(KLoCa Lens)</title>
+<meta name="description" content="KLoCa Studio는 AI 제품을 만들고 검증하는 스튜디오입니다. 외주 앱 인수 전 독립 검증(KLoCa QA)과 키토·저탄수화물 식품 확인 AI(KLoCa Lens)를 제공합니다.">
+<meta name="keywords" content="KLoCa Studio, 클로카 스튜디오, KLoCa QA, 외주 앱 인수 검증, 앱 인수인계 검증, 외주 개발 검수, 소스코드 인수인계, KLoCa Lens, 키토 식품, 저탄수화물 식품 확인, 식품 라벨 해석, 키토 장보기, 혈당 식품 확인">
+<link rel="canonical" href="https://klocastudio.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KLoCa Studio">
+<meta property="og:title" content="KLoCa Studio — AI 제품을 만들고, 검증합니다">
+<meta property="og:description" content="외주 앱 인수 전 독립 검증(KLoCa QA)과 키토 식품 확인 AI(KLoCa Lens). 만든 것은 검증하고, 검증한 것은 다시 만듭니다.">
+<meta property="og:url" content="https://klocastudio.com/">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KLoCa Studio — AI 제품을 만들고, 검증합니다">
+<meta name="twitter:description" content="외주 앱 인수 전 독립 검증(KLoCa QA)과 키토 식품 확인 AI(KLoCa Lens).">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"KLoCa Studio","url":"https://klocastudio.com/","description":"AI 제품을 만들고 검증하는 스튜디오. KLoCa Lens(키토 식품 확인 AI)와 KLoCa QA(외주 앱 인수 전 독립 검증)를 제공합니다.","email":"hello@klocastudio.com"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"KLoCa QA","provider":{"@type":"Organization","name":"KLoCa Studio"},"serviceType":"외주 앱 인수 전 독립 검증","description":"외주 개발로 만든 앱을 인수하기 전에 코드·계정·데이터·도메인의 소유권과 보안을 증거 기반으로 검증하는 독립 인수 검증 서비스입니다.","areaServed":"KR","offers":{"@type":"Offer","price":"390000","priceCurrency":"KRW","description":"파일럿 특가 (정상가 79만원)"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"KLoCa Lens","applicationCategory":"HealthApplication","operatingSystem":"Web","description":"사기 전에 음식을 이해하는 AI 도구. 음식 사진을 인식하고 라벨·영양성분을 해석해 키토·혈당·알레르기 식단 맥락에 맞춰 설명합니다. 인터넷 없이도 작동합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW","description":"베타 테스트 중"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"KLoCa QA란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"KLoCa QA는 외주 개발로 만든 앱을 인수하기 전에 독립적으로 검증하는 서비스입니다. 코드·계정·데이터·도메인의 소유권과 보안, 핵심 기능을 증거 기반으로 확인하고 BLOCK/FIX/PASS 판정을 내립니다."}},
+{"@type":"Question","name":"KLoCa Lens란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"KLoCa Lens는 사기 전에 음식을 이해하는 AI 도구입니다. 음식 사진을 찍으면 인식하고, 라벨과 영양성분을 해석해 키토·혈당·알레르기 등 식단 맥락에 맞춰 설명합니다. 인터넷 없이도 작동합니다."}},
+{"@type":"Question","name":"KLoCa QA 검증은 어떻게 진행되나요?","acceptedAnswer":{"@type":"Answer","text":"5단계로 진행됩니다: 착수 합의, 테스트 설계 및 실행, 재현 가능한 수정 요청 전달, 수정본 재검증, 인수 판정 보고. 각 단계의 산출물이 다음 단계의 입력이 됩니다."}},
+{"@type":"Question","name":"독립 검증 등급 I0/I1/I2는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"I0는 만든 팀이 직접 하는 자체 검토, I1은 같은 조직의 다른 검증자가 하는 역할 분리, I2는 제작·운영에 관여하지 않은 제3자가 하는 독립 검증입니다. KLoCa QA 파일럿은 I2 방식으로 수행합니다."}},
+{"@type":"Question","name":"KLoCa QA 판정 기준은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"BLOCK(미해결 P0, 인수 보류), FIX(핵심 미해결 P1, 조건부 인수), PASS(P2·P3만 존재, 인수 가능)로 판정합니다. 핵심 기준이 UNKNOWN이면 PASS를 줄 수 없습니다."}},
+{"@type":"Question","name":"KLoCa QA 비용은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"파일럿은 39만원(정상가 79만원)입니다. 외주 앱 인수인계 검증 1건, 읽기 전용 권한으로 진행하며 검증 리포트 1부가 포함됩니다."}},
+{"@type":"Question","name":"KLoCa Lens는 무료인가요?","acceptedAnswer":{"@type":"Answer","text":"현재 베타 테스트 중입니다. 베타 테스터로 참여할 수 있습니다."}}
+]}
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kfonts/ridi-batang@0.2.0/index.min.css">
 <style>
@@ -451,6 +483,18 @@ footer strong{color:var(--cream)}
   </div>
 </div></section>
 
+<section style="padding-top:0"><div class="wrap">
+  <div class="sec-kick"><svg class="kicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2-2.5 3.3"/><path d="M12 17v.5"/></svg>FAQ</div>
+  <h2 class="big serif">자주 묻는 질문</h2>
+  <div class="checks" style="margin-top:28px">
+    <div class="check"><span class="ck">Q</span><p>KLoCa QA란 무엇인가요?<small>외주 개발로 만든 앱을 인수하기 전에 독립적으로 검증하는 서비스입니다. 코드·계정·데이터·도메인의 소유권과 보안, 핵심 기능을 증거 기반으로 확인하고 BLOCK/FIX/PASS 판정을 내립니다.</small></p></div>
+    <div class="check"><span class="ck">Q</span><p>KLoCa Lens란 무엇인가요?<small>사기 전에 음식을 이해하는 AI 도구입니다. 음식 사진을 찍으면 인식하고, 라벨과 영양성분을 해석해 키토·혈당·알레르기 등 식단 맥락에 맞춰 설명합니다. 인터넷 없이도 작동합니다.</small></p></div>
+    <div class="check"><span class="ck">Q</span><p>검증은 어떻게 진행되나요?<small>5단계: 착수 합의 → 테스트 설계 및 실행 → 재현 가능한 수정 요청 전달 → 수정본 재검증 → 인수 판정 보고. 각 단계의 산출물이 다음 단계의 입력이 됩니다.</small></p></div>
+    <div class="check"><span class="ck">Q</span><p>독립 검증 등급 I0/I1/I2는 무엇인가요?<small>I0 자체 검토(만든 팀이 직접), I1 역할 분리(같은 조직, 다른 검증자), I2 제3자 검증(제작·운영에 관여하지 않은 독립 검증). 이 파일럿은 I2 방식으로 수행합니다.</small></p></div>
+    <div class="check"><span class="ck">Q</span><p>판정 기준은 무엇인가요?<small>BLOCK(미해결 P0, 인수 보류), FIX(핵심 미해결 P1, 조건부 인수), PASS(P2·P3만 존재, 인수 가능). 핵심 기준이 UNKNOWN이면 PASS를 줄 수 없습니다.</small></p></div>
+    <div class="check"><span class="ck">Q</span><p>비용은 얼마인가요?<small>파일럿 39만원(정상가 79만원). 외주 앱 인수인계 검증 1건, 읽기 전용 권한, 검증 리포트 1부 포함.</small></p></div>
+  </div>
+</div></section>
 <footer><div class="wrap">
   <p class="disclaimer">본 서비스는 KLoCa 자체 기준(KLoCa QA v1.5)에 따른 독립 품질검토이며, 정부기관·국제표준 인증이 아닙니다. 위 내용은 서비스 실행 설계안으로, 실증 케이스는 파일럿을 통해 축적됩니다.</p>
   <div><strong>KLoCa Studio</strong> · 독립 검증 (I2)</div>
